@@ -95,9 +95,8 @@ const PortfolioPage = () => {
         <Section title="About Me" id="about_me" >
           <div className="bg-gray-800 rounded-lg shadow-xl p-8 hover:shadow-2xl transition duration-300">
             <p className="text-lg text-gray-300 mb-6 leading-relaxed">
-              I'm a versatile and enthusiastic professional with a master's degree in computing and information systems. 
-              My passion lies in driving impactful innovation in AI, and I'm proficient in leveraging cutting-edge 
-              technologies such as Large Language Models (LLM) to tackle complex tasks.
+              {`I'm a versatile and enthusiastic professional with a master's degree in computing and information systems.`}
+              {`My passion lies in driving impactful innovation in AI, and I'm proficient in leveraging cutting-edge technologies such as Large Language Models (LLM) to tackle complex tasks.`}
             </p>
             <p className="text-lg text-gray-300 leading-relaxed">
               With a strong background in data analytics, machine learning, and software development, I bring a unique 
@@ -128,9 +127,9 @@ const PortfolioPage = () => {
               location="Hong Kong, China"
               period="August 2019 - May 2021"
               description={[
-                "Launched Sustainability Project, awarded departmental 'Performance Recognition Award'",
-                "Collaborated on building tailor-made digital Permit-To-Work system (ePTW), boosting operational efficiency by 40%",
-                "Coordinated internal and external audits (ISO 9001 & 45001) with relevant stakeholders"
+                `Launched Sustainability Project, awarded departmental 'Performance Recognition Award'`,
+                `Collaborated on building tailor-made digital Permit-To-Work system (ePTW), boosting operational efficiency by 40%`,
+                `Coordinated internal and external audits (ISO 9001 & 45001) with relevant stakeholders`
               ]}
             />
           </div>
@@ -198,15 +197,15 @@ const PortfolioPage = () => {
             <ul className="list-none text-gray-300 space-y-6">
               <li>
                 <h4 className="text-xl font-semibold text-blue-300 mb-2">RAG Technique Implementation</h4>
-                <p>Implemented advanced Retrieval Augmented Generation (RAG) techniques to enhance the chatbot's knowledge base. Compared the performance of different RAG techniques (e.g., Hybrid Search, Vector Semantic Search) and data extraction methods (e.g., PDF tables) to determine the most effective approach for the project. Strategically selected a large language model (LLM) for production by comparing the performance of different models, such as Cohere, OpenAI, and other open-source options</p>
+                <p>{`Implemented advanced Retrieval Augmented Generation (RAG) techniques to enhance the chatbot's knowledge base. Compared the performance of different RAG techniques (e.g., Hybrid Search, Vector Semantic Search) and data extraction methods (e.g., PDF tables) to determine the most effective approach for the project. Strategically selected a large language model (LLM) for production by comparing the performance of different models, such as Cohere, OpenAI, and other open-source options`}</p>
               </li>
               <li>
                 <h4 className="text-xl font-semibold text-blue-300 mb-2">Cloud Deployment Optimization</h4>
-                <p>Collaborated with Microsoft Technical Specialists to gain a deeper understanding of Azure cloud hosting specifications, ensuring the AI-powered web application can handle concurrent user logins and scale effectively at a production level (i.e., Azure Web App Service). Evaluated various vector database service providers, including Azure AI Search, Qdrant, and Singlestore, focusing on data security and scalability to identify a suitable permanent vector database for optimising data retrieval and storage</p>
+                <p>{`Collaborated with Microsoft Technical Specialists to gain a deeper understanding of Azure cloud hosting specifications, ensuring the AI-powered web application can handle concurrent user logins and scale effectively at a production level (i.e., Azure Web App Service). Evaluated various vector database service providers, including Azure AI Search, Qdrant, and Singlestore, focusing on data security and scalability to identify a suitable permanent vector database for optimising data retrieval and storage`}</p>
               </li>
               <li>
                 <h4 className="text-xl font-semibold text-blue-300 mb-2">Advanced Analytics Visualisation</h4>
-                <p>Integrated advanced natural language processing techniques for news article summarization (using HuggingFace transformers), sentiment analysis (leveraging Textblob), and topic modeling (using Gensim and pyLDAvis) along with interactive visualisation built with Streamlit</p>
+                <p>{`Integrated advanced natural language processing techniques for news article summarization (using HuggingFace transformers), sentiment analysis (leveraging Textblob), and topic modeling (using Gensim and pyLDAvis) along with interactive visualisation built with Streamlit`}</p>
               </li>
             </ul>
           </div>
@@ -217,15 +216,15 @@ const PortfolioPage = () => {
             <ul className="list-none text-gray-300 space-y-6">
               <li>
                 <h4 className="text-xl font-semibold text-blue-300 mb-2">Chatbot Development</h4>
-                <p>Designed and developed a conversational AI chatbot for internal team use, utilizing a large language model (LLM) to simulate human-like conversations. The chatbot was trained on a dataset of CVs to provide information on team members' skills, experience, and education.</p>
+                <p>{`Designed and developed a conversational AI chatbot for internal team use, utilizing a large language model (LLM) to simulate human-like conversations. The chatbot was trained on a dataset of CVs to provide information on team members&apos; skills, experience, and education.`}</p>
               </li>
               <li>
                 <h4 className="text-xl font-semibold text-blue-300 mb-2">Integration with Existing Systems</h4>
-                <p>Integrated the chatbot with a vector database and company's existing SharePoint site to fetch real-time data on team members, ensuring the chatbot's knowledge base was always up-to-date. This integration enabled the chatbot to provide accurate and relevant information to users.</p>
+                <p>{`Integrated the chatbot with a vector database and company's existing SharePoint site to fetch real-time data on team members, ensuring the chatbot's knowledge base was always up-to-date. This integration enabled the chatbot to provide accurate and relevant information to users.`}</p>
               </li>
               <li>
                 <h4 className="text-xl font-semibold text-blue-300 mb-2">User Interface Design</h4>
-                <p>Designed a user-friendly interface for the chatbot, ensuring a seamless user experience. The interface included features such as a chat window, user authentication, and a knowledge base search functionality.</p>
+                <p>{`Designed a user-friendly interface for the chatbot, ensuring a seamless user experience. The interface included features such as a chat window, user authentication, and a knowledge base search functionality.`}</p>
               </li>
             </ul>
           </div>

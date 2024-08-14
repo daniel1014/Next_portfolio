@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import Image from 'next/image';
 
 const ProjectGallery: React.FC<{ images: string[] }> = ({ images }) => {
   const [currentImage, setCurrentImage] = useState(0);
@@ -14,9 +15,11 @@ const ProjectGallery: React.FC<{ images: string[] }> = ({ images }) => {
 
   return (
     <div className="relative w-full h-64 md:h-96 mb-6">
-      <img
+      <Image
         src={images[currentImage]}
         alt={`Project screenshot ${currentImage + 1}`}
+        width={1800}
+        height={900}
         className="w-full h-full object-contain rounded-lg"
       />
       <button

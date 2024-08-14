@@ -25,11 +25,11 @@ const ChatPage = () => {
     const generateAIResponse = (question: string): string => {
       // This is a simple simulation. In a real application, you would integrate with an actual LLM API.
       const responses: { [key: string]: string } = {
-        'experience': "Daniel has experience as a Graduate Cost and Carbon Intelligence Consultant at AECOM in London, UK, and as a Corporate HSSE Officer at Shell in Hong Kong, China.",
-        'skills': "Daniel's key skills include Python, Machine Learning, SQL, Azure, and PowerBI.",
-        'education': "Daniel has a Master's degree in Computing and Information Systems from Queen Mary University of London.",
-        'projects': "One of Daniel's notable projects is a News Scraping Web App with LLM, developed for a real-world company.",
-        'default': "I'm an AI assistant trained on Daniel's CV. You can ask me about his experience, skills, education, or projects."
+        'experience': `Daniel has experience as a Graduate Cost and Carbon Intelligence Consultant at AECOM in London, UK, and as a Corporate HSSE Officer at Shell in Hong Kong, China.`,
+        'skills': `Daniel's key skills include Python, Machine Learning, SQL, Azure, and PowerBI.`,
+        'education': `Daniel has a Master's degree in Computing and Information Systems from Queen Mary University of London.`,
+        'projects': `One of Daniel's notable projects is a News Scraping Web App with LLM, developed for a real-world company.`,
+        'default': `I'm an AI assistant trained on Daniel's CV. You can ask me about his experience, skills, education, or projects.`
       };
   
       const lowercaseQuestion = question.toLowerCase();
