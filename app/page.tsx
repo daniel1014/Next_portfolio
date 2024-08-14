@@ -237,7 +237,10 @@ const PortfolioPage = () => {
             <div className="flex flex-col md:flex-row justify-between">
               <div className="mb-8 md:mb-0">
                 <p className="flex items-center mb-4 text-gray-300"><Phone className="mr-3 text-blue-400" /> +44 7432 336788</p>
-                <p className="flex items-center mb-4 text-gray-300"><Mail className="mr-3 text-blue-400" /> chuenlik@hotmail.com</p>
+                <p className="flex items-center mb-4 text-gray-300">
+                  <Mail className="mr-3 text-blue-400" /> 
+                  <a href="mailto:chuenlik@hotmail.com" className="text-blue-400 hover:text-blue-300 transition duration-300">chuenlik@hotmail.com</a>
+                </p>
                 <p className="flex items-center mb-4 text-gray-300">
                   <Linkedin className="mr-3 text-blue-400" />
                   <a href="https://www.linkedin.com/in/chuenlik-daniel-wong/" className="text-blue-400 hover:text-blue-300 transition duration-300">LinkedIn: Chuen Lik Daniel Wong</a>
