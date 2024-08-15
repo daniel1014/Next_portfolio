@@ -49,7 +49,7 @@ const ChatPage = () => {
           </div>
         </nav>
         <div className="flex-grow container mx-auto px-4 py-12">
-          <h1 className="text-4xl font-bold text-center mb-10 text-blue-400">Chat with Daniel's CV</h1>
+          <h1 className="text-4xl font-bold text-center mb-10 text-blue-400">{`Chat with Daniel's CV`}</h1>
           <div className="bg-gray-800 rounded-lg shadow-xl p-6 max-w-2xl mx-auto">
             <div className="h-96 overflow-y-auto mb-6 space-y-4">
               {messages.map((message, index) => (
