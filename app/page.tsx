@@ -7,9 +7,11 @@ import SkillCategory from '@/components/SkillCategory';
 import Section from '@/components/Section';
 import ProjectGallery from '@/components/ProjectGallery';
 import { FloatingNav } from '@/components/ui/floating-navbar';
-import { IconHome, IconMessage, IconUser } from "@tabler/icons-react";
-import MagicButton from '@/components/MagicButton';
+import { FaHome, FaBriefcase, FaStar, FaFolderOpen, FaEnvelope } from 'react-icons/fa';
 import { FaLocationArrow } from 'react-icons/fa';
+// import { IconHome, IconMessage, IconUser } from "@tabler/icons-react";
+import MagicButton from '@/components/MagicButton';
+
 
 const PortfolioPage = () => {
   const [activeSection, setActiveSection] = useState('about');
@@ -42,12 +44,12 @@ const PortfolioPage = () => {
       {/* Floating Nav */}
       <div className="max-w-7xl w-full">
         <FloatingNav navItems={[
-          {name: 'About Me', link: '#about', icon: <IconHome />},
-          {name: 'Experience', link: '#experience', icon: <IconMessage />},
-          {name: 'Skills', link: '#skills', icon: <IconUser />},
-          {name: 'Projects', link: '#projects', icon: <IconMessage />},
-          {name: 'Contact', link: '#contact', icon: <IconMessage />},
-        ]} />      
+        {name: 'About Me', link: '#about', icon: <FaHome />},
+        {name: 'Experience', link: '#experience', icon: <FaBriefcase />},
+        {name: 'Skills', link: '#skills', icon: <FaStar />},
+        {name: 'Projects', link: '#projects', icon: <FaFolderOpen />},
+        {name: 'Contact', link: '#contact', icon: <FaEnvelope />},
+        ]} />    
       </div>
 
       {/* Navigation */}
@@ -216,7 +218,7 @@ const PortfolioPage = () => {
             <ul className="list-none text-gray-300 space-y-6">
               <li>
                 <h4 className="text-xl font-semibold text-blue-300 mb-2">Chatbot Development</h4>
-                <p>{`Designed and developed a conversational AI chatbot for internal team use, utilizing a large language model (LLM) to simulate human-like conversations. The chatbot was trained on a dataset of CVs to provide information on team members&apos; skills, experience, and education.`}</p>
+                <p>{`Designed and developed a conversational AI chatbot for internal team use, utilizing a large language model (LLM) to simulate human-like conversations. The chatbot was trained on a dataset of CVs to provide information on team members' skills, experience, and education.`}</p>
               </li>
               <li>
                 <h4 className="text-xl font-semibold text-blue-300 mb-2">Integration with Existing Systems</h4>
