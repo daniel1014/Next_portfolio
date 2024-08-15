@@ -66,7 +66,7 @@ const ChatPage = () => {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyPress={(e) => e.key === 'Enter' && handleSend()}
-                placeholder="Ask about Daniel's experience, skills, etc."
+                placeholder={`Ask about Daniel's experience, skills, etc.`}
                 className="flex-grow p-3 bg-gray-700 border border-gray-600 rounded-l-lg focus:outline-none focus:border-blue-400 text-gray-300"
               />
               <button onClick={handleSend} className="bg-blue-500 text-white p-3 rounded-r-lg hover:bg-blue-600 transition duration-300">
