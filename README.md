@@ -13,7 +13,7 @@ Let's check out my link: https://daniel-wong-portfolio.vercel.app/
 - **Magical Button**: A absolute stunning, animated button inspired by [tailwindcss buttons](https://ui.aceternity.com/components/tailwindcss-buttons). It enhances user interaction and showcases advanced CSS and JavaScript techniques.
 
 ### Technology Stack
-- [Next.js](https://nextjs.org/)
+- [Next.js](https://nextjs.org/)/ [React](https://react.dev/)
 - [Tailwindcss](https://tailwindcss.com/)
 - [Aceternity UI](https://ui.aceternity.com/), [Framer Motion](https://www.framer.com/motion/) (for animations and UI components)
 - TypeScript
