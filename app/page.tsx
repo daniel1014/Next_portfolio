@@ -9,7 +9,6 @@ import ProjectGallery from '@/components/ProjectGallery';
 import { FloatingNav } from '@/components/ui/floating-navbar';
 import { FaHome, FaBriefcase, FaStar, FaFolderOpen, FaEnvelope } from 'react-icons/fa';
 import { FaLocationArrow } from 'react-icons/fa';
-// import { IconHome, IconMessage, IconUser } from "@tabler/icons-react";
 import MagicButton from '@/components/MagicButton';
 
 
@@ -269,7 +268,7 @@ const PortfolioPage = () => {
       {/* Footer */}
       <footer className="bg-gray-800 text-gray-400 py-12">
         <div className="container mx-auto px-6 text-center">
-          <p>© 2024 Daniel Wong. All rights reserved.</p>
+          <p>© 2024 Daniel Wong. Made with ❤️ by Daniel.</p>
         </div>
       </footer>
     </div>
