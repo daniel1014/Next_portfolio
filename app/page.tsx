@@ -75,7 +75,7 @@ const PortfolioPage = () => {
       {/* Hero */}
       <header className="bg-hero-gradient text-white h-screen flex items-center">
         <div className="container mx-auto px-6 text-center">
-          <h1 className="text-6xl font-bold mb-6 animate-fade-in">Daniel (Chuen Lik) Wong</h1>
+          <h1 className="text-4xl sm:text-6xl font-bold mb-6 animate-fade-in">Daniel (Chuen Lik) Wong</h1>
           <p className="text-2xl mb-10 animate-fade-in-delay">AI Engineer | Data Scientist | Innovation Enthusiast</p>
           {/* <button onClick={() => scrollTo('about')} className="bg-blue-500 text-white px-8 py-3 rounded-full hover:bg-blue-600 transition duration-300 shadow-lg animate-bounce">
             Explore My Work <ChevronDown className="inline ml-2" />
