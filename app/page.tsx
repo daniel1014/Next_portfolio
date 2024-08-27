@@ -7,7 +7,7 @@ import SkillCategory from '@/components/SkillCategory';
 import Section from '@/components/Section';
 import ProjectGallery from '@/components/ProjectGallery';
 import { FloatingNav } from '@/components/ui/floating-navbar';
-import { FaHome, FaBriefcase, FaStar, FaFolderOpen, FaEnvelope } from 'react-icons/fa';
+import { FaHome, FaBriefcase, FaStar, FaFolderOpen, FaEnvelope, FaGithub } from 'react-icons/fa';
 import { FaLocationArrow } from 'react-icons/fa';
 import MagicButton from '@/components/MagicButton';
 
@@ -48,6 +48,7 @@ const PortfolioPage = () => {
         {name: 'Skills', link: '#skills', icon: <FaStar />},
         {name: 'Projects', link: '#projects', icon: <FaFolderOpen />},
         {name: 'Contact', link: '#contact', icon: <FaEnvelope />},
+        {name: 'GitHub', link: 'https://github.com/daniel1014/Next_portfolio', icon: <FaGithub />},
         ]} />    
       </div>
 
@@ -55,7 +56,7 @@ const PortfolioPage = () => {
       <nav className="bg-gray-800 shadow-lg fixed w-full z-10">
         <div className="container mx-auto px-6 py-4">
           <div className="flex justify-between items-center">
-            <h1 className="text-2xl font-bold text-blue-400">Daniel Wong</h1>
+            <h1 className="text-2xl font-bold text-blue-400 cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>Daniel Wong</h1>
             <div className="hidden md:flex space-x-6">
               {['about', 'experience', 'skills', 'projects', 'contact'].map((section) => (
                 <button
@@ -67,6 +68,14 @@ const PortfolioPage = () => {
                 </button>
               ))}
               <Link href="/chat" className="text-blue-400 hover:text-blue-300 font-semibold transition duration-300">Chat with CV</Link>
+              <a 
+                href="https://github.com/daniel1014/Next_portfolio" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="text-gray-300 hover:text-green-300 font-semibold transition duration-300"
+              >
+                <FaGithub className="inline-block mr-1 text-xl" /> 
+              </a>
             </div>
           </div>
         </div>
@@ -111,7 +120,7 @@ const PortfolioPage = () => {
         <Section title="Experience" id="experience">
           <div className="space-y-8">
             <ExperienceItem 
-              title="Graduate Cost and Carbon Intelligence Consultant"
+              title="Data Analytics Consultant (with Artificial Intelligence specialization)"
               company="AECOM"
               location="London, UK"
               period="January 2023 - Present"
@@ -193,7 +202,7 @@ const PortfolioPage = () => {
         <Section title="Projects" id="projects">
           <div className="bg-gray-800 shadow-xl rounded-lg p-8 mb-8 hover:shadow-2xl transition duration-300">
             <h3 className="text-2xl font-semibold mb-4 text-blue-400">News Scraping Web App with LLM</h3>
-            <p className="text-gray-400 mb-6">December 2023 - Present</p>
+            <p className="text-gray-300 mb-6">December 2023 - Present</p>
             <ProjectGallery images={projectImages_1} />
             <ul className="list-none text-gray-300 space-y-6">
               <li>
@@ -212,7 +221,7 @@ const PortfolioPage = () => {
           </div>
           <div className="bg-gray-800 shadow-xl rounded-lg p-8 mb-8 hover:shadow-2xl transition duration-300">
             <h3 className="text-2xl font-semibold mb-4 text-blue-400">Team Internal Tool - CV Chatbot</h3>
-            <p className="text-gray-400 mb-6">January 2023 - March 2023</p>
+            <p className="text-gray-300 mb-6">January 2023 - March 2023</p>
             <ProjectGallery images={projectImages_2} />
             <ul className="list-none text-gray-300 space-y-6">
               <li>
@@ -267,8 +276,8 @@ const PortfolioPage = () => {
 
       {/* Footer */}
       <footer className="bg-gray-800 text-gray-400 py-12">
-        <div className="container mx-auto px-6 text-center">
-          <p>© 2024 Daniel Wong. Made with ❤️ by Daniel.</p>
+        <div className="container mx-auto px-4 text-center">
+          <p>© 2024 Daniel Wong. Made with ❤️ by Daniel.</p> 
         </div>
       </footer>
     </div>
