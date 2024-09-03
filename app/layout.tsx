@@ -22,7 +22,8 @@ export default function RootLayout({
     };
 
     // Listen for route changes
-    const handleRouteChangeComplete = (url: string) => {
+    const handleRouteChangeComplete = (event: PopStateEvent) => {
+      const url = window.location.pathname; // Get the current URL
       handleRouteChange(url);
     };
 
