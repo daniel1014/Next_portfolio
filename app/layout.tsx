@@ -7,6 +7,7 @@ import Script from 'next/script'
 import { metadata } from './metadata'; // Import metadata from the new file
 
 const inter = Inter({ subsets: ['latin'] })
+const measurementId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID; // environment variable in Vercel production environment
 
 export default function RootLayout({
   children,
@@ -15,7 +16,7 @@ export default function RootLayout({
 }) {
   useEffect(() => {
     const handleRouteChange = (url: string) => {
-      window.gtag('config', 'G-X34X66F8W8', {
+      window.gtag('config', measurementId, {
         page_path: url,
       });
     };
@@ -38,7 +39,7 @@ export default function RootLayout({
         <Script
           id="google-analytics"
           strategy="afterInteractive"
-          src={`https://www.googletagmanager.com/gtag/js?id=G-G-X34X66F8W8`}
+          src={`https://www.googletagmanager.com/gtag/js?id=${measurementId}`}
         />
         <Script
           id="google-analytics-init"
@@ -48,7 +49,7 @@ export default function RootLayout({
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
-              gtag('config', 'G-X34X66F8W8', {
+              gtag('config', '${measurementId}', {
                 page_path: window.location.pathname,
               });
             `,
