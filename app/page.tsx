@@ -35,7 +35,7 @@ const PortfolioPage = () => {
     "/photos/chatbot_cv_1.jpg", 
     "/photos/chatbot_cv_2.jpg", 
     "/photos/chatbot_cv_3.jpg",
-    "/photos/chatbot_cv_4.jpg"
+    "/photos/chatbot_cv_4.jpg",
   ];
 
   return (
@@ -155,8 +155,9 @@ const PortfolioPage = () => {
                   category="Python" 
                   skills={[
                     { name: "Core Python", level: 95 },
-                    { name: "LLM frameworks (e.g. LangChain, LlamaIndex, CrewAI)", level: 90 },
-                    { name: "Machine Learning", level: 85 },
+                    { name: "LLM agentic frameworks (e.g. LangChain, LlamaIndex)", level: 90 },
+                    { name: "ETL pipeline (e.g. Pandas)", level: 90 },
+                    { name: "RESTful APIs (e.g. Flask)", level: 80 },
                   ]} 
                 />
                 <SkillCategory 
@@ -164,14 +165,16 @@ const PortfolioPage = () => {
                   skills={[
                     { name: "Excel (VBA)", level: 90 },
                     { name: "SQL", level: 75 },
-                    { name: "PowerBI", level: 90 },
+                    { name: "Dashboard Visualisation (e.g. PowerBI)", level: 95 },
                   ]} 
                 />
                 <SkillCategory 
                   category="Cloud" 
                   skills={[
-                    { name: "Azure (e.g. Azure App Service, Azure AI Search)", level: 85 },
-                    { name: "Vector Database (e.g. Qdrant, SingleStore, Pinecone)", level: 85 },
+                    { name: "Azure (e.g. Web App Service, AI Search)", level: 80 },
+                    { name: "Vector Database (e.g. Qdrant, Pinecone)", level: 90 },
+                    { name: "Relational Database (e.g. SQL, PostgreSQL)", level: 80 }, 
+                    { name: "Machine Learning (e.g. Regression, Time-series)", level: 90 }
                   ]} 
                 />
                 <SkillCategory 
