@@ -1,6 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { motion } from 'framer-motion';
 import { ChevronDown, Mail, Phone, Github, Linkedin } from 'lucide-react';
 import ExperienceItem from '@/components/ExperienceItem';
 import SkillCategory from '@/components/SkillCategory';
@@ -10,6 +11,13 @@ import { FloatingNav } from '@/components/ui/floating-navbar';
 import { FaHome, FaBriefcase, FaStar, FaFolderOpen, FaEnvelope, FaGithub } from 'react-icons/fa';
 import { FaLocationArrow } from 'react-icons/fa';
 import MagicButton from '@/components/MagicButton';
+import FloatingElements from '@/components/FloatingElements';
+import TimelineExperience from '@/components/TimelineExperience';
+import FlipCard from '@/components/FlipCard';
+import AnimatedCounter from '@/components/AnimatedCounter';
+import { Trophy, Users, Calendar, Code } from 'lucide-react';
+import AuroraBackground from '@/components/AuroraBackground';
+import AuroraDivider from '@/components/AuroraDivider';
 
 
 const PortfolioPage = () => {
@@ -38,8 +46,87 @@ const PortfolioPage = () => {
     "/photos/chatbot_cv_4.jpg"
   ];
 
+  const experiences = [
+    {
+      title: "Data Analytics Consultant (with Artificial Intelligence specialization)",
+      company: "AECOM",
+      location: "London, UK",
+      period: "January 2023 - Present",
+      description: [
+        "Led the full-stack development of an AI solution, 'News Scraping App', for a prestigious client. Integrated a bespoke chatbot, external search engine, and advanced RAG technique, alongside an intuitive user interface and proprietary knowledge base. Utilised Azure Web App service and a reputable vector database for efficient data retrieval",
+        "Implemented Monte Carlo simulation for sensitivity analysis over a hundred cost models, evaluating the impact of financial uncertainty for a £1 billion business plan",
+        "Designed ETL pipeline for data consolidation (370k+ records) and created PowerBI dashboard",
+        "Developed decarbonization tool for regional asset portfolio platform, by integrating real-time data streaming from open-source APIs into a python based GUI"
+      ]
+    },
+    {
+      title: "Corporate HSSE Officer",
+      company: "Shell",
+      location: "Hong Kong, China",
+      period: "August 2019 - May 2021",
+      description: [
+        "Launched Sustainability Project, awarded departmental 'Performance Recognition Award'",
+        "Collaborated on building tailor-made digital Permit-To-Work system (ePTW), boosting operational efficiency by 40%",
+        "Coordinated internal and external audits (ISO 9001 & 45001) with relevant stakeholders"
+      ]
+    }
+  ];
+
+  const projects = [
+    {
+      title: "News Scraping Web App with LLM",
+      period: "December 2023 - December 2024",
+      images: projectImages_1,
+      frontDescription: "An advanced AI-powered web application that combines news scraping, chatbot functionality, and cutting-edge RAG techniques for intelligent data retrieval and analysis.",
+      backDetails: [
+        {
+          title: "RAG Technique Implementation",
+          description: "Implemented advanced Retrieval Augmented Generation (RAG) techniques to enhance the chatbot's knowledge base. Compared the performance of different RAG techniques (e.g., Hybrid Search, Vector Semantic Search) and data extraction methods to determine the most effective approach."
+        },
+        {
+          title: "Cloud Deployment Optimization",
+          description: "Collaborated with Microsoft Technical Specialists to gain a deeper understanding of Azure cloud hosting specifications, ensuring the AI-powered web application can handle concurrent user logins and scale effectively at production level."
+        },
+        {
+          title: "Advanced Analytics Visualisation",
+          description: "Integrated advanced natural language processing techniques for news article summarization, sentiment analysis, and topic modeling along with interactive visualisation built with Streamlit."
+        }
+      ],
+      technologies: ["Python", "Azure", "LangChain", "Streamlit", "Vector Database"],
+      links: {
+        github: "https://github.com/daniel1014/Next_portfolio"
+      }
+    },
+    {
+      title: "Team Internal Tool - CV Chatbot",
+      period: "July 2024 - October 2024",
+      images: projectImages_2,
+      frontDescription: "An intelligent conversational AI chatbot designed for internal team use, utilizing LLM technology to provide information about team members' skills, experience, and education.",
+      backDetails: [
+        {
+          title: "Chatbot Development",
+          description: "Designed and developed a conversational AI chatbot for internal team use, utilizing a large language model (LLM) to simulate human-like conversations. The chatbot was trained on a dataset of CVs to provide information on team members' skills and experience."
+        },
+        {
+          title: "Integration with Existing Systems",
+          description: "Integrated the chatbot with a vector database and company's existing SharePoint site to fetch real-time data on team members, ensuring the chatbot's knowledge base was always up-to-date."
+        },
+        {
+          title: "User Interface Design",
+          description: "Designed a user-friendly interface for the chatbot, ensuring a seamless user experience. The interface included features such as a chat window, user authentication, and knowledge base search functionality."
+        }
+      ],
+      technologies: ["Python", "LLM", "SharePoint", "Vector Database", "UI/UX"],
+      links: {
+        demo: "https://daniel-wong-portfolio.vercel.app/chat"
+      }
+    }
+  ];
+
   return (
-    <div className="min-h-screen bg-gradient-dark">
+    <div className="min-h-screen bg-gradient-dark relative">
+      <AuroraBackground />
+      <FloatingElements />
       {/* Floating Nav */}
       <div className="max-w-7xl w-full">
         <FloatingNav navItems={[
@@ -101,54 +188,64 @@ const PortfolioPage = () => {
 
 
       {/* Main content */}
-      <main className="container mx-auto px-6 py-20" id="about">
+      <main className="container mx-auto px-6 py-32 max-w-6xl" id="about">
         <Section title="About Me" id="about_me" >
-          <div className="bg-gray-800 rounded-lg shadow-xl p-8 hover:shadow-2xl transition duration-300">
-            <p className="text-lg text-gray-300 mb-6 leading-relaxed">
+          <div className="bg-card-gradient backdrop-blur-lg border border-white/10 rounded-2xl shadow-2xl p-8 hover:shadow-blue-500/20 hover:scale-[1.02] transition-all duration-500">
+            <p className="text-xl text-gray-200 mb-8 leading-relaxed font-light">
               {`I'm a versatile and enthusiastic professional with a master's degree in computing and information systems.`}
               {`My passion lies in driving impactful innovation in AI, and I'm proficient in leveraging cutting-edge technologies such as Large Language Models (LLM) to tackle complex tasks.`}
             </p>
-            <p className="text-lg text-gray-300 leading-relaxed">
+            <p className="text-xl text-gray-200 leading-relaxed font-light">
               With a strong background in data analytics, machine learning, and software development, I bring a unique 
               blend of technical skills and business acumen to every project. My goal is to contribute to groundbreaking 
               AI solutions that make a real difference in the world.
             </p>
           </div>
-        </Section>
-
-        {/* Experience Section */}
-        <Section title="Experience" id="experience">
-          <div className="space-y-8">
-            <ExperienceItem 
-              title="Data Analytics Consultant (with Artificial Intelligence specialization)"
-              company="AECOM"
-              location="London, UK"
-              period="January 2023 - Present"
-              description={[
-                "Led the full-stack development of an AI solution, 'News Scraping App', for a prestigious client. Integrated a bespoke chatbot, external search engine, and advanced RAG technique, alongside an intuitive user interface and proprietary knowledge base. Utilised Azure Web App service and a reputable vector database for efficient data retrieval",
-                "Implemented Monte Carlo simulation for sensitivity analysis over a hundred cost models, evaluating the impact of financial uncertainty for a £1 billion business plan",
-                "Designed ETL pipeline for data consolidation (370k+ records) and created PowerBI dashboard",
-                "Developed decarbonization tool for regional asset portfolio platform, by integrating real-time data streaming from open-source APIs into a python based GUI"
-              ]}
+          
+          {/* Achievement Counters */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-12">
+            <AnimatedCounter 
+              end={5} 
+              suffix="+" 
+              label="Years Experience" 
+              icon={<Calendar className="w-6 h-6 text-blue-400" />}
             />
-            <ExperienceItem 
-              title="Corporate HSSE Officer"
-              company="Shell"
-              location="Hong Kong, China"
-              period="August 2019 - May 2021"
-              description={[
-                `Launched Sustainability Project, awarded departmental 'Performance Recognition Award'`,
-                `Collaborated on building tailor-made digital Permit-To-Work system (ePTW), boosting operational efficiency by 40%`,
-                `Coordinated internal and external audits (ISO 9001 & 45001) with relevant stakeholders`
-              ]}
+            <AnimatedCounter 
+              end={2} 
+              suffix="+" 
+              label="Major Projects" 
+              icon={<Code className="w-6 h-6 text-blue-400" />}
+            />
+            <AnimatedCounter 
+              end={370} 
+              suffix="K+" 
+              label="Records Processed" 
+              icon={<Users className="w-6 h-6 text-blue-400" />}
+            />
+            <AnimatedCounter 
+              end={1} 
+              suffix=" Billion" 
+              prefix="£"
+              label="Business Plan Value" 
+              icon={<Trophy className="w-6 h-6 text-blue-400" />}
             />
           </div>
         </Section>
 
+        <AuroraDivider />
+
+        {/* Experience Section */}
+        <Section title="Experience" id="experience">
+          <TimelineExperience experiences={experiences} />
+        </Section>
+
+        <AuroraDivider />
+
         {/* Skills Section */}
         <Section title="Skills" id="skills">
-          <div className="bg-gray-800 rounded-lg shadow-xl p-8 hover:shadow-2xl transition duration-300">
-            <div className="grid md:grid-cols-2 gap-12">
+          <div className="relative bg-card-gradient backdrop-blur-lg border border-white/10 rounded-2xl shadow-2xl p-8 hover:shadow-blue-500/20 hover:scale-[1.02] transition-all duration-500 overflow-hidden">
+            <div className="absolute inset-0 bg-skill-gradient opacity-10 pointer-events-none" />
+            <div className="relative z-10 grid md:grid-cols-2 gap-12">
               <div>
                 <h3 className="text-2xl font-semibold mb-6 text-blue-400">Technical Skills</h3>
                 <SkillCategory 
@@ -198,51 +295,23 @@ const PortfolioPage = () => {
           </div>
         </Section>
 
+        <AuroraDivider />
+
         {/* Projects Section */}
         <Section title="Projects" id="projects">
-          <div className="bg-gray-800 shadow-xl rounded-lg p-8 mb-8 hover:shadow-2xl transition duration-300">
-            <h3 className="text-2xl font-semibold mb-4 text-blue-400">News Scraping Web App with LLM</h3>
-            <p className="text-gray-300 mb-6">December 2023 - Present</p>
-            <ProjectGallery images={projectImages_1} />
-            <ul className="list-none text-gray-300 space-y-6">
-              <li>
-                <h4 className="text-xl font-semibold text-blue-300 mb-2">RAG Technique Implementation</h4>
-                <p>{`Implemented advanced Retrieval Augmented Generation (RAG) techniques to enhance the chatbot's knowledge base. Compared the performance of different RAG techniques (e.g., Hybrid Search, Vector Semantic Search) and data extraction methods (e.g., PDF tables) to determine the most effective approach for the project. Strategically selected a large language model (LLM) for production by comparing the performance of different models, such as Cohere, OpenAI, and other open-source options`}</p>
-              </li>
-              <li>
-                <h4 className="text-xl font-semibold text-blue-300 mb-2">Cloud Deployment Optimization</h4>
-                <p>{`Collaborated with Microsoft Technical Specialists to gain a deeper understanding of Azure cloud hosting specifications, ensuring the AI-powered web application can handle concurrent user logins and scale effectively at a production level (i.e., Azure Web App Service). Evaluated various vector database service providers, including Azure AI Search, Qdrant, and Singlestore, focusing on data security and scalability to identify a suitable permanent vector database for optimising data retrieval and storage`}</p>
-              </li>
-              <li>
-                <h4 className="text-xl font-semibold text-blue-300 mb-2">Advanced Analytics Visualisation</h4>
-                <p>{`Integrated advanced natural language processing techniques for news article summarization (using HuggingFace transformers), sentiment analysis (leveraging Textblob), and topic modeling (using Gensim and pyLDAvis) along with interactive visualisation built with Streamlit`}</p>
-              </li>
-            </ul>
-          </div>
-          <div className="bg-gray-800 shadow-xl rounded-lg p-8 mb-8 hover:shadow-2xl transition duration-300">
-            <h3 className="text-2xl font-semibold mb-4 text-blue-400">Team Internal Tool - CV Chatbot</h3>
-            <p className="text-gray-300 mb-6">January 2023 - March 2023</p>
-            <ProjectGallery images={projectImages_2} />
-            <ul className="list-none text-gray-300 space-y-6">
-              <li>
-                <h4 className="text-xl font-semibold text-blue-300 mb-2">Chatbot Development</h4>
-                <p>{`Designed and developed a conversational AI chatbot for internal team use, utilizing a large language model (LLM) to simulate human-like conversations. The chatbot was trained on a dataset of CVs to provide information on team members' skills, experience, and education.`}</p>
-              </li>
-              <li>
-                <h4 className="text-xl font-semibold text-blue-300 mb-2">Integration with Existing Systems</h4>
-                <p>{`Integrated the chatbot with a vector database and company's existing SharePoint site to fetch real-time data on team members, ensuring the chatbot's knowledge base was always up-to-date. This integration enabled the chatbot to provide accurate and relevant information to users.`}</p>
-              </li>
-              <li>
-                <h4 className="text-xl font-semibold text-blue-300 mb-2">User Interface Design</h4>
-                <p>{`Designed a user-friendly interface for the chatbot, ensuring a seamless user experience. The interface included features such as a chat window, user authentication, and a knowledge base search functionality.`}</p>
-              </li>
-            </ul>
+          <div className="relative">
+            <div className="absolute inset-0 bg-project-gradient opacity-5 rounded-3xl pointer-events-none" />
+            <div className="relative z-10 grid gap-16 max-w-4xl mx-auto">
+              {projects.map((project, index) => (
+                <FlipCard key={index} project={project} />
+              ))}
+            </div>
           </div>
         </Section>
 
         {/* Contact Section */}     
         <Section title="Contact" id="contact">
-          <div className="bg-gray-800 rounded-lg shadow-xl p-8 hover:shadow-2xl transition duration-300">
+          <div className="bg-card-gradient backdrop-blur-lg border border-white/10 rounded-2xl shadow-2xl p-8 hover:shadow-blue-500/20 hover:scale-[1.02] transition-all duration-500">
             <div className="flex flex-col md:flex-row justify-between">
               <div className="mb-8 md:mb-0">
                 <p className="flex items-center mb-4 text-gray-300"><Phone className="mr-3 text-blue-400" /> +44 7432 336788</p>

@@ -6,19 +6,23 @@ const ProjectGallery: React.FC<{ images: string[] }> = ({ images }) => {
   const [currentImage, setCurrentImage] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const nextImage = () => {
+  const nextImage = (event: React.MouseEvent) => {
+    event.stopPropagation();
     setCurrentImage((prev) => (prev + 1) % images.length);
   };
 
-  const prevImage = () => {
+  const prevImage = (event: React.MouseEvent) => {
+    event.stopPropagation();
     setCurrentImage((prev) => (prev - 1 + images.length) % images.length);
   };
 
-  const openModal = () => {
+  const openModal = (event: React.MouseEvent) => {
+    event.stopPropagation();
     setIsModalOpen(true);
   };
 
-  const closeModal = () => {
+  const closeModal = (event?: React.MouseEvent) => {
+    event?.stopPropagation();
     setIsModalOpen(false);
   };
 
@@ -35,13 +39,15 @@ const ProjectGallery: React.FC<{ images: string[] }> = ({ images }) => {
         />
         <button
           onClick={prevImage}
-          className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-gray-800 bg-opacity-50 text-white p-2 rounded-full"
+          className="absolute left-2 bg-gray-800 bg-opacity-50 text-white p-2 rounded-full"
+          style={{ top: 'calc(50% - 20px)' }}
         >
           <ChevronLeft size={24} />
         </button>
         <button
           onClick={nextImage}
-          className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-gray-800 bg-opacity-50 text-white p-2 rounded-full"
+          className="absolute right-2 bg-gray-800 bg-opacity-50 text-white p-2 rounded-full"
+          style={{ top: 'calc(50% - 20px)' }}
         >
           <ChevronRight size={24} />
         </button>
@@ -65,13 +71,15 @@ const ProjectGallery: React.FC<{ images: string[] }> = ({ images }) => {
             </button>
             <button
               onClick={prevImage}
-              className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-gray-800 bg-opacity-50 text-white p-2 rounded-full"
+              className="absolute left-4 bg-gray-800 bg-opacity-50 text-white p-2 rounded-full"
+              style={{ top: 'calc(50% - 20px)' }}
             >
               <ChevronLeft size={24} />
             </button>
             <button
               onClick={nextImage}
-              className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-gray-800 bg-opacity-50 text-white p-2 rounded-full"
+              className="absolute right-4 bg-gray-800 bg-opacity-50 text-white p-2 rounded-full"
+              style={{ top: 'calc(50% - 20px)' }}
             >
               <ChevronRight size={24} />
             </button>
