@@ -32,11 +32,11 @@ const AuroraDivider: React.FC = () => {
         animate={{
           scale: [1, 1.1, 1],
           opacity: [0.7, 1, 0.7],
-        }}
-        transition={{
-          duration: 4,
-          repeat: Infinity,
-          ease: "easeInOut"
+          transition: {
+            duration: 4,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }
         }}
         className="absolute w-4 h-4 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full shadow-lg shadow-blue-500/50"
       />
@@ -50,11 +50,11 @@ const AuroraDivider: React.FC = () => {
         animate={{
           y: [0, -5, 0],
           opacity: [0.5, 1, 0.5],
-        }}
-        transition={{
-          duration: 3,
-          repeat: Infinity,
-          ease: "easeInOut"
+          transition: {
+            duration: 3,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }
         }}
         className="absolute left-1/4 w-2 h-2 bg-gradient-to-r from-emerald-400 to-blue-400 rounded-full shadow-sm shadow-emerald-400/50"
       />
@@ -67,11 +67,11 @@ const AuroraDivider: React.FC = () => {
         animate={{
           y: [0, 5, 0],
           opacity: [0.5, 1, 0.5],
-        }}
-        transition={{
-          duration: 3.5,
-          repeat: Infinity,
-          ease: "easeInOut"
+          transition: {
+            duration: 3.5,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }
         }}
         className="absolute right-1/4 w-2 h-2 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full shadow-sm shadow-purple-400/50"
       />
