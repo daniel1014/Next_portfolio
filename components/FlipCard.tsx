@@ -1,7 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { ExternalLink, Github, Info } from 'lucide-react';
+import { ExternalLink, Github, Info, Download } from 'lucide-react';
 import ProjectGallery from './ProjectGallery';
 
 interface ProjectData {
@@ -17,6 +17,7 @@ interface ProjectData {
   links?: {
     github?: string;
     demo?: string;
+    sampleData?: string;
   };
 }
 
@@ -28,7 +29,7 @@ const FlipCard: React.FC<FlipCardProps> = ({ project }) => {
   const [isFlipped, setIsFlipped] = useState(false);
 
   return (
-    <div className="relative h-[600px] w-full perspective-1000 z-10" style={{ transformStyle: 'preserve-3d' }}>
+    <div className="relative h-[600px] w-full perspective-1000 z-0" style={{ transformStyle: 'preserve-3d' }}>
       <motion.div
         className="relative w-full h-full duration-700 transform-style-preserve-3d cursor-pointer"
         animate={{ rotateY: isFlipped ? 180 : 0 }}
@@ -129,7 +130,7 @@ const FlipCard: React.FC<FlipCardProps> = ({ project }) => {
           </div>
           
           {project.links && (
-            <div className="flex gap-4 mb-4">
+            <div className="flex flex-wrap gap-3 mb-4">
               {project.links.github && (
                 <motion.a
                   href={project.links.github}
@@ -137,6 +138,7 @@ const FlipCard: React.FC<FlipCardProps> = ({ project }) => {
                   rel="noopener noreferrer"
                   whileHover={{ scale: 1.05 }}
                   className="flex items-center gap-2 px-4 py-2 bg-gray-700/50 text-gray-300 rounded-lg hover:bg-gray-600/50 transition-colors"
+                  onClick={(e) => e.stopPropagation()}
                 >
                   <Github className="w-4 h-4" />
                   GitHub
@@ -149,9 +151,22 @@ const FlipCard: React.FC<FlipCardProps> = ({ project }) => {
                   rel="noopener noreferrer"
                   whileHover={{ scale: 1.05 }}
                   className="flex items-center gap-2 px-4 py-2 bg-blue-500/20 text-blue-300 rounded-lg hover:bg-blue-500/30 transition-colors"
+                  onClick={(e) => e.stopPropagation()}
                 >
                   <ExternalLink className="w-4 h-4" />
                   Demo
+                </motion.a>
+              )}
+              {project.links.sampleData && (
+                <motion.a
+                  href={project.links.sampleData}
+                  download
+                  whileHover={{ scale: 1.05 }}
+                  className="flex items-center gap-2 px-4 py-2 bg-emerald-500/20 text-emerald-300 rounded-lg hover:bg-emerald-500/30 transition-colors"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <Download className="w-4 h-4" />
+                  Sample Data
                 </motion.a>
               )}
             </div>

@@ -46,6 +46,13 @@ const PortfolioPage = () => {
     "/photos/chatbot_cv_4.jpg",
   ];
 
+  const projectImages_3 = [
+    "/photos/trilodocs_1.png",
+    "/photos/trilodocs_2.png",
+    "/photos/trilodocs_3.png",
+    "/photos/trilodocs_4.png",
+  ];
+
   const experiences = [
     {
       title: "Data Analytics Consultant (with Artificial Intelligence specialization)",
@@ -73,6 +80,32 @@ const PortfolioPage = () => {
   ];
 
   const projects = [
+    {
+      title: "TrilloDocs - AI Document Processing Platform",
+      period: "May 2025 - July 2025",
+      images: projectImages_3,
+      frontDescription: "A comprehensive AI-powered document processing platform that transforms PDF and DOCX files into structured data using advanced LLM technology with modern, interactive user interface.",
+      backDetails: [
+        {
+          title: "Full-Stack AI Integration",
+          description: "Built a complete document processing web application using Next.js frontend and Python FastAPI backend, leveraging Google's Gemini LLM with Langchain for intelligent document analysis and structured data extraction from PDF/DOCX files."
+        },
+        {
+          title: "Modern Interactive UI/UX",
+          description: "Designed a sophisticated interface featuring animated particle backgrounds, gradient effects, glowing elements, and smooth transitions using Tailwind CSS, Framer Motion, and Shadcn UI components for an engaging user experience."
+        },
+        {
+          title: "Smart Document Management",
+          description: "Implemented comprehensive document handling with upload validation, processing history tracking, downloadable JSON results, and real-time status updates, demonstrating scalable file processing architecture."
+        }
+      ],
+      technologies: ["Next.js", "Python", "FastAPI", "Gemini LLM", "Langchain", "Tailwind CSS", "Framer Motion", "Shadcn UI"],
+      links: {
+        github: "https://github.com/daniel1014/Trilodocs",
+        demo: "https://trilodocs.vercel.app/",
+        sampleData: "/assets/demo_data.docx"
+      }
+    },
     {
       title: "News Scraping Web App with LLM",
       period: "December 2023 - December 2024",
@@ -211,7 +244,7 @@ const PortfolioPage = () => {
               icon={<Calendar className="w-6 h-6 text-blue-400" />}
             />
             <AnimatedCounter 
-              end={2} 
+              end={3} 
               suffix="+" 
               label="Major Projects" 
               icon={<Code className="w-6 h-6 text-blue-400" />}
@@ -304,7 +337,7 @@ const PortfolioPage = () => {
         <Section title="Projects" id="projects">
           <div className="relative">
             <div className="absolute inset-0 bg-project-gradient opacity-5 rounded-3xl pointer-events-none" />
-            <div className="relative z-10 grid gap-16 max-w-4xl mx-auto">
+            <div className="relative z-0 grid gap-16 max-w-4xl mx-auto">
               {projects.map((project, index) => (
                 <FlipCard key={index} project={project} />
               ))}
