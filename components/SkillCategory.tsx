@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ChevronDown, ChevronRight } from 'lucide-react';
-import RadarChart from './RadarChart';
+import SkillBar from './SkillBar';
 
 const SkillCategory: React.FC<{ category: string; skills: { name: string; level: number }[] }> = ({ category, skills }) => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -16,9 +16,9 @@ const SkillCategory: React.FC<{ category: string; skills: { name: string; level:
       </button>
       {isExpanded && (
         <div className="pl-4">
-          <div className="w-full h-64">
-            <RadarChart skills={skills} />
-          </div>
+          {skills.map((skill, index) => (
+            <SkillBar key={index} skill={skill.name} level={skill.level} />
+          ))}
         </div>
       )}
     </div>
