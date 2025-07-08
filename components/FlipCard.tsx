@@ -32,7 +32,7 @@ const FlipCard: React.FC<FlipCardProps> = ({ project }) => {
     <div className="relative h-[600px] w-full perspective-1000 z-0" style={{ transformStyle: 'preserve-3d' }}>
       <motion.div
         className="relative w-full h-full duration-700 transform-style-preserve-3d cursor-pointer"
-        animate={{ rotateY: isFlipped ? 180 : 0 }}
+        animate={{ rotateX: isFlipped ? 180 : 0 }}
         transition={{ duration: 0.7, ease: "easeInOut" }}
         onClick={() => setIsFlipped(!isFlipped)}
         style={{ transformStyle: 'preserve-3d' }}
@@ -40,8 +40,8 @@ const FlipCard: React.FC<FlipCardProps> = ({ project }) => {
         {/* Front of card */}
         <motion.div 
           className="absolute inset-0 w-full h-full bg-card-gradient backdrop-blur-lg border border-white/10 rounded-2xl shadow-2xl p-8"
-          initial={{ rotateY: 0 }}
-          animate={{ rotateY: 0 }}
+          initial={{ rotateX: 0 }}
+          animate={{ rotateX: 0 }}
           whileHover={{ scale: 1.02 }}
           transition={{ duration: 0.3 }}
           style={{ 
@@ -96,8 +96,8 @@ const FlipCard: React.FC<FlipCardProps> = ({ project }) => {
         {/* Back of card */}
         <motion.div 
           className="absolute inset-0 w-full h-full bg-gradient-to-br from-slate-800 to-slate-900 backdrop-blur-lg border border-purple-400/20 rounded-2xl shadow-2xl p-8"
-          initial={{ rotateY: 180 }}
-          animate={{ rotateY: 180 }}
+          initial={{ rotateX: 180 }}
+          animate={{ rotateX: 180 }}
           whileHover={{ scale: 1.02 }}
           transition={{ duration: 0.3 }}
           style={{ 
