@@ -77,61 +77,23 @@ const ProjectGallery: React.FC<{ images: string[] }> = ({ images }) => {
 
   return (
     <>
-      {/* 3D Carousel Container - Safe perspective separate from FlipCard */}
+      {/* Image Gallery Container */}
       <div 
-        className="relative w-full h-64 md:h-96 mb-6 overflow-hidden"
-        style={{ 
-          perspective: '800px', // Optimized for horizontal rotation viewing
-          perspectiveOrigin: 'center center',
-          contain: 'layout style' // CSS containment to prevent overflow
-        }}
+        className="relative w-full h-64 md:h-96 mb-6"
         onMouseEnter={() => setIsAutoRotating(false)}
         onMouseLeave={() => setIsAutoRotating(true)}
       >
-        {/* 3D Carousel Scene */}
-        <div 
-          className="relative w-full h-full"
-          style={{
-            transformStyle: 'preserve-3d',
-            transformOrigin: 'center center'
-          }}
-        >
-          {images.map((image, index) => {
-            // Calculate relative position from current image
-            const relativeIndex = index - currentImage;
-            
-            // Use a smaller arc for better visibility and no back face issues  
-            const maxAngle = 45; // Max 45 degrees from center
-            const angleStep = images.length > 1 ? (maxAngle * 2) / (images.length - 1) : 0;
-            
+        {images.map((image, index) => {
             const isActive = index === currentImage;
-            
-            // Enhanced 3D visibility - show multiple images for 3D effect
-            const isVisible = Math.abs(relativeIndex) <= 2; // Show more images for 3D effect
-            const isNextToPrevious = Math.abs(relativeIndex) === 1; // Adjacent images
-            
-            // Dynamic depth based on position for 3D effect
-            const baseZ = 60;
-            const translateZ = isActive ? baseZ + 40 : (isNextToPrevious ? baseZ + 20 : baseZ);
-            
-            // Position active image at center (0 degrees) - INVERT ROTATION DIRECTION
-            let angle = isActive ? 0 : -relativeIndex * angleStep;
-            
-            // Limit angle range to prevent back face visibility
-            angle = Math.max(-maxAngle, Math.min(maxAngle, angle));
             
             return (
               <div
                 key={index}
                 className="absolute inset-0 cursor-pointer"
                 style={{
-                  transform: `translateZ(${translateZ}px) rotateY(${angle}deg)`,
                   opacity: isActive ? 1 : 0,
-                  filter: isActive ? 'blur(0px) brightness(1)' : 'blur(0.2px) brightness(0.95)',
-                  transition: 'all 0.8s cubic-bezier(0.4, 0.0, 0.2, 1)',
-                  zIndex: isActive ? 10 : (isNextToPrevious ? 5 : 1),
-                  backfaceVisibility: 'hidden',
-                  pointerEvents: !isVisible ? 'none' : 'auto' // Disable interaction for hidden images
+                  transition: 'opacity 0.5s ease-in-out',
+                  pointerEvents: isActive ? 'auto' : 'none'
                 }}
                 onClick={openModal}
               >
@@ -147,7 +109,6 @@ const ProjectGallery: React.FC<{ images: string[] }> = ({ images }) => {
               </div>
             );
           })}
-        </div>
         
         {/* Navigation Controls */}
         <button
