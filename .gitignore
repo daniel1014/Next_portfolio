@@ -39,3 +39,14 @@ next-env.d.ts
 .env.sentry-build-plugin
 CLAUDE.md
 *.md
+
+# cache
+# Byte-compiled / optimized / DLL Python files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Python virtual environment folders
+venv/
+env/
+.Python
