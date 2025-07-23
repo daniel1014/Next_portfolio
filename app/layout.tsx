@@ -4,7 +4,6 @@ import './globals.css'
 import { Inter } from 'next/font/google'
 import { useEffect } from 'react'
 import Script from 'next/script'
-import { metadata } from './metadata'; // Import metadata from the new file
 
 const inter = Inter({ subsets: ['latin'] })
 const measurementId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID; // environment variable in Vercel production environment
@@ -22,7 +21,7 @@ export default function RootLayout({
     };
 
     // Listen for route changes
-    const handleRouteChangeComplete = (event: PopStateEvent) => {
+    const handleRouteChangeComplete = () => {
       const url = window.location.pathname; // Get the current URL
       handleRouteChange(url);
     };
