@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
-import { Send, Sparkles, MessageCircle, Loader2 } from 'lucide-react';
+import { Send, Sparkles, MessageCircle, Loader2, Bug } from 'lucide-react';
 
 interface Message {
   text: string;
@@ -14,8 +14,25 @@ interface ChatResponse {
   response: string;
   suggestedQuestions: string[];
   context: {
-    entities: string[];
+    sources: string[];
+    sectionsUsed: string[];
     hasRelevantInfo: boolean;
+    totalTokens: number;
+    error?: string;
+  };
+  debugInfo?: {
+    query: string;
+    rawSearchResults: Array<{
+      id: string;
+      score: number;
+      text: string;
+      fullText: string;
+      metadata: any;
+    }>;
+    contextUsed: string;
+    searchResultsCount: number;
+    timestamp: string;
+    fallbackUsed?: boolean;
     error?: string;
   };
 }
@@ -29,6 +46,8 @@ const ChatPage = () => {
   const [conversationHistory, setConversationHistory] = useState<Array<{role: string; content: string}>>([]);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const [isInitialized, setIsInitialized] = useState(false);
+  const [debugInfo, setDebugInfo] = useState<any>(null);
+  const [showDebug, setShowDebug] = useState(false);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -111,6 +130,12 @@ const ChatPage = () => {
         setSuggestedQuestions(data.suggestedQuestions);
       }
 
+      // Store debug information
+      if (data.debugInfo) {
+        setDebugInfo(data.debugInfo);
+        console.log('Vector Search Debug Info:', data.debugInfo);
+      }
+
       // Update conversation history
       setConversationHistory(prev => [
         ...prev,
@@ -149,11 +174,11 @@ const ChatPage = () => {
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold text-blue-400 mb-4 flex items-center justify-center gap-2">
             <MessageCircle className="w-8 h-8" />
-            Chat with Daniel's AI Assistant
+            Chat with Daniel&apos;s AI Assistant
           </h1>
           <p className="text-gray-400 max-w-2xl mx-auto">
-            Ask me anything about Daniel's professional background, skills, projects, and experience. 
-            I'm powered by a knowledge graph and can provide detailed insights about his portfolio.
+            Ask me anything about Daniel&apos;s professional background, skills, projects, and experience. 
+            I&apos;m powered by a knowledge graph and can provide detailed insights about his portfolio.
           </p>
         </div>
 
@@ -248,6 +273,80 @@ const ChatPage = () => {
                 </button>
               </div>
             </div>
+          </div>
+
+          {/* Debug Panel */}
+          <div className="mt-8 max-w-4xl mx-auto">
+            <button
+              onClick={() => setShowDebug(!showDebug)}
+              className="mb-4 bg-gray-700 hover:bg-gray-600 text-gray-300 px-4 py-2 rounded-lg transition-colors duration-200 flex items-center gap-2"
+            >
+              <Bug className="w-4 h-4" />
+              {showDebug ? 'Hide' : 'Show'} Vector Search Debug Info
+            </button>
+
+            {showDebug && debugInfo && (
+              <div className="bg-gray-800 rounded-lg shadow-xl p-6">
+                <h3 className="text-xl font-bold text-blue-400 mb-4">Vector Search Debug Information</h3>
+                
+                <div className="space-y-4">
+                  <div>
+                    <h4 className="text-sm font-semibold text-gray-300 mb-2">Query:</h4>
+                    <p className="text-gray-400 bg-gray-900 p-2 rounded">{debugInfo.query}</p>
+                  </div>
+
+                  <div>
+                    <h4 className="text-sm font-semibold text-gray-300 mb-2">Search Results ({debugInfo.searchResultsCount}):</h4>
+                    {debugInfo.rawSearchResults?.length > 0 ? (
+                      <div className="space-y-3">
+                        {debugInfo.rawSearchResults.map((result: any, index: number) => (
+                          <div key={index} className="bg-gray-900 p-3 rounded border-l-4 border-blue-500">
+                            <div className="flex justify-between items-start mb-2">
+                              <span className="text-xs text-blue-400 font-mono">{result.id}</span>
+                              <span className="text-xs text-yellow-400">Score: {result.score.toFixed(4)}</span>
+                            </div>
+                            <p className="text-gray-300 text-sm mb-2">{result.text}</p>
+                            <details className="text-xs text-gray-500">
+                              <summary className="cursor-pointer hover:text-gray-400">Show full text and metadata</summary>
+                              <div className="mt-2 p-2 bg-gray-800 rounded">
+                                <p className="mb-2"><strong>Full Text:</strong></p>
+                                <p className="mb-3 text-gray-400">{result.fullText}</p>
+                                <p><strong>Metadata:</strong></p>
+                                <pre className="text-xs text-gray-400 overflow-x-auto">
+                                  {JSON.stringify(result.metadata, null, 2)}
+                                </pre>
+                              </div>
+                            </details>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="text-gray-500">No search results found</p>
+                    )}
+                  </div>
+
+                  <div>
+                    <h4 className="text-sm font-semibold text-gray-300 mb-2">Context Used for LLM:</h4>
+                    <pre className="text-gray-400 bg-gray-900 p-3 rounded text-xs overflow-x-auto whitespace-pre-wrap">
+                      {debugInfo.contextUsed || 'No context available'}
+                    </pre>
+                  </div>
+
+                  {debugInfo.fallbackUsed && (
+                    <div className="bg-red-900 border border-red-600 p-3 rounded">
+                      <h4 className="text-sm font-semibold text-red-300 mb-2">⚠️ Fallback Response Used</h4>
+                      <p className="text-red-200 text-sm">
+                        Vector search failed. Error: {debugInfo.error}
+                      </p>
+                    </div>
+                  )}
+
+                  <div className="text-xs text-gray-500">
+                    Timestamp: {debugInfo.timestamp}
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>

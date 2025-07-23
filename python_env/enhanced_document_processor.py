@@ -8,10 +8,9 @@ import os
 import re
 import hashlib
 import logging
-from typing import List, Dict, Any, Optional, Tuple
+from typing import List, Dict, Any, Tuple
 from dataclasses import dataclass
 from datetime import datetime
-import json
 
 # Third-party imports
 from unstructured.partition.docx import partition_docx

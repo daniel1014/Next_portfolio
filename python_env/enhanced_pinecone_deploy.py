@@ -15,14 +15,13 @@ from datetime import datetime
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 # Third-party imports
-from pinecone import Pinecone, ServerlessSpec
+from pinecone import Pinecone
 from dotenv import load_dotenv
 
 # Local imports
 from enhanced_document_processor import (
     EnhancedDocumentProcessor, 
-    DocumentChunk, 
-    HierarchicalDocument
+    DocumentChunk
 )
 
 # Load environment variables from project root
@@ -182,7 +181,7 @@ class EnhancedPineconeDeployment:
                     })
                 
                 # Upsert records with automatic embedding generation
-                response = self.index.upsert_records(
+                self.index.upsert_records(
                     namespace=self.namespace,
                     records=upsert_records
                 )
@@ -216,8 +215,7 @@ class EnhancedPineconeDeployment:
         self,
         query_text: str,
         top_k: int = 5,
-        filter_dict: Dict[str, Any] = None,
-        include_metadata: bool = True
+        filter_dict: Dict[str, Any] = None
     ) -> List[Dict[str, Any]]:
         """Search with hierarchical filtering support using text matching"""
         try:

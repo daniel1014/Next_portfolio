@@ -24,6 +24,12 @@ export async function POST(request: NextRequest) {
     // Get context from Pinecone vector store
     const contextResponse = await pineconeService.getContextForQuestion(message);
     
+    // Get raw search results for debugging
+    const rawSearchResults = await pineconeService.searchHierarchical(message, {
+      topK: 5,
+      minScore: 0.1
+    });
+    
     // Mock person info since we have it in our context now
     const personInfo = {
       properties: {
@@ -84,6 +90,20 @@ Please provide a helpful response about Daniel's portfolio:
         sectionsUsed: contextResponse.sectionsUsed,
         hasRelevantInfo: contextResponse.hasRelevantInfo,
         totalTokens: contextResponse.totalTokens
+      },
+      // Debug information - actual vector chunks retrieved
+      debugInfo: {
+        query: message,
+        rawSearchResults: rawSearchResults.map(result => ({
+          id: result.id,
+          score: result.score,
+          text: result.text.substring(0, 500) + (result.text.length > 500 ? '...' : ''), // Truncate for readability
+          fullText: result.text, // Full text for detailed inspection
+          metadata: result.metadata
+        })),
+        contextUsed: contextResponse.context,
+        searchResultsCount: rawSearchResults.length,
+        timestamp: new Date().toISOString()
       }
     });
 
@@ -106,6 +126,16 @@ Please provide a helpful response about Daniel's portfolio:
         hasRelevantInfo: false,
         totalTokens: 0,
         error: 'Vector database temporarily unavailable'
+      },
+      // Debug information for troubleshooting
+      debugInfo: {
+        query: message,
+        error: error?.toString() || 'Unknown error',
+        rawSearchResults: [],
+        contextUsed: '',
+        searchResultsCount: 0,
+        timestamp: new Date().toISOString(),
+        fallbackUsed: true
       }
     });
   }
