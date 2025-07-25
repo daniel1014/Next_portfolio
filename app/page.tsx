@@ -209,9 +209,9 @@ const PortfolioPage = () => {
           {/* <button onClick={() => scrollTo('about')} className="bg-blue-500 text-white px-8 py-3 rounded-full hover:bg-blue-600 transition duration-300 shadow-lg animate-bounce">
             Explore My Work <ChevronDown className="inline ml-2" />
           </button> */}
-          <a href="#about">
+          <a href="/chat">
             <MagicButton
-            title="Explore my work"
+            title="Chat with Me!"
             icon={<FaLocationArrow />}
             position="right"
             />

@@ -249,7 +249,7 @@ const ChatPage = () => {
       
       <div className="flex-grow container mx-auto px-4 py-8">
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-blue-400 mb-4 flex items-center justify-center gap-2">
+          <h1 className="text-4xl font-bold text-gray-800 mb-4 flex items-center justify-center gap-2">
             <MessageCircle className="w-8 h-8" />
             Chat with Daniel&apos;s AI Assistant
           </h1>
