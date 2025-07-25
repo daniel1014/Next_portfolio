@@ -6,17 +6,8 @@
 import { Pinecone } from '@pinecone-database/pinecone';
 
 interface PineconeMetadata {
-  section_id: string;
   section_title: string;
-  content_type: string;
-  hierarchy_level: number;
-  chunk_index: number;
-  parent_section: string;
-  total_tokens: number;
-  document_type: string;
-  created_at: string;
   source_file: string;
-  page_number?: number;
 }
 
 interface SearchResult {
@@ -26,18 +17,12 @@ interface SearchResult {
   metadata: PineconeMetadata;
 }
 
-interface ContextualResponse {
+interface UnifiedContextualResponse {
   context: string;
+  results: SearchResult[];
   sources: string[];
   totalTokens: number;
-  sectionsUsed: string[];
   hasRelevantInfo: boolean;
-}
-
-interface SuggestedQuestion {
-  question: string;
-  category: string;
-  filter?: Record<string, any>;
 }
 
 export class PineconeService {
@@ -47,7 +32,7 @@ export class PineconeService {
 
   constructor(
     apiKey: string = process.env.PINECONE_API_KEY || '',
-    indexName: string = 'portfolio-knowledge-integrated',
+    indexName: string = 'portfolio-knowledge-v2',
     namespace: string = 'portfolio-hierarchy'
   ) {
     this.indexName = indexName;
@@ -71,51 +56,47 @@ export class PineconeService {
   }
 
   /**
-   * Real Pinecone search using integrated embeddings via official JS client
+   * Pinecone search using integrated embeddings via official JS client.
+   * Returns both raw results and an assembled context string for LLM use.
+   * Uses rerank with model 'bge-reranker-v2-m3' and topN=5 by default.
    */
-  async searchHierarchical(
+  async search(
     query: string,
     options: {
       topK?: number;
       filter?: Record<string, any>;
       minScore?: number;
+      rerankTopN?: number;
     } = {}
-  ): Promise<SearchResult[]> {
-    const { topK = 5, filter, minScore = 0.1 } = options;
-    
+  ): Promise<UnifiedContextualResponse> {
+    const topK = options.topK ?? 10;
+    const minScore = options.minScore ?? 0.1;
+    const rerankTopN = options.rerankTopN ?? 10;
+    const filter = options.filter;
     try {
       const index = this.getIndex();
-      
-      // Use the correct namespace method approach
       const nsIndex = this.namespace ? index.namespace(this.namespace) : index;
-      
       const searchPayload = {
         query: {
           topK: topK,
           inputs: { text: query },
           ...(filter && { filter })
         },
-        // Only fetch the fields we actually need to reduce bandwidth and improve performance
         fields: [
           'text',
-          'section_id', 
           'section_title',
-          'content_type',
-          'hierarchy_level',
-          'chunk_index',
-          'parent_section',
-          'total_tokens',
-          'document_type',
-          'created_at',
-          'source_file',
-          'page_number'
-        ]
+          'source_file'
+        ],
+        // Use rerank to improve result relevance
+        // rerank: {
+        //   model: 'bge-reranker-v2-m3',
+        //   rankFields: ['text'],
+        //   topN: rerankTopN
+        // }
       };
       
       // Use official Pinecone client searchRecords method for integrated embeddings
       const searchResults = await nsIndex.searchRecords(searchPayload);
-      
-      // Parse response using the official format from the client
       const hits = searchResults.result?.hits || [];
       
       // Convert to our SearchResult format using correct field names
@@ -126,112 +107,56 @@ export class PineconeService {
           score: hit._score || hit.score,
           text: hit.fields?.text || '',
           metadata: {
-            section_id: hit.fields?.section_id || '',
             section_title: hit.fields?.section_title || '',
-            content_type: hit.fields?.content_type || 'text',
-            hierarchy_level: hit.fields?.hierarchy_level || 1,
-            chunk_index: hit.fields?.chunk_index || 0,
-            parent_section: hit.fields?.parent_section || '',
-            total_tokens: hit.fields?.total_tokens || 0,
-            document_type: hit.fields?.document_type || 'general',
-            created_at: hit.fields?.created_at || '',
-            source_file: hit.fields?.source_file || '',
-            page_number: hit.fields?.page_number
+            source_file: hit.fields?.source_file || ''
           }
         }));
-      
-      console.log(`Found ${results.length} results with scores >= ${minScore}`);
-      return results;
-      
-    } catch (error) {
-      console.error('Error searching Pinecone:', error);
-      throw new Error(`Pinecone search failed: ${error}`);
-    }
-  }
-
-  /**
-   * Get contextual information for chatbot responses
-   */
-  async getContextForQuestion(query: string): Promise<ContextualResponse> {
-    try {
-      const results = await this.searchHierarchical(query, {
-        topK: 5,
-        minScore: 0.1
-      });
-      
-      if (results.length === 0) {
-        return {
-          context: '',
-          sources: [],
-          totalTokens: 0,
-          sectionsUsed: [],
-          hasRelevantInfo: false
-        };
-      }
-      
-      // Assemble context from results
+      // Assemble context string for LLM
       const contextParts: string[] = [];
       const sources: string[] = [];
-      const sectionsUsed: string[] = [];
       let totalTokens = 0;
-      
       for (const result of results) {
         contextParts.push(`[${result.metadata.section_title}] ${result.text}`);
         sources.push(result.metadata.section_title);
-        sectionsUsed.push(result.metadata.section_id);
-        totalTokens += result.metadata.total_tokens || 0;
+        totalTokens += result.text.split(/\s+/).length;
       }
-      
-      return {
+      const unifiedResponse: UnifiedContextualResponse = {
         context: contextParts.join('\n\n'),
-        sources: Array.from(new Set(sources)), // Remove duplicates
-        sectionsUsed: Array.from(new Set(sectionsUsed)), // Remove duplicates
+        results,
+        sources: Array.from(new Set(sources)),
         totalTokens,
-        hasRelevantInfo: true
+        hasRelevantInfo: results.length > 0
       };
-      
+      return unifiedResponse;
     } catch (error) {
-      console.error('Error getting context:', error);
+      console.error('Error searching Pinecone:', error);
       return {
         context: '',
+        results: [],
         sources: [],
         totalTokens: 0,
-        sectionsUsed: [],
         hasRelevantInfo: false
       };
     }
   }
 
   /**
+   * Get contextual information for chatbot responses (now just calls search)
+   */
+  async getContextForQuestion(query: string): Promise<UnifiedContextualResponse> {
+    return this.search(query);
+  }
+
+  /**
    * Get suggested questions for better UX
    */
-  getSuggestedQuestions(): SuggestedQuestion[] {
+  getSuggestedQuestions(): { question: string }[] {
     return [
-      {
-        question: "What are Daniel's main technical skills?",
-        category: "Skills",
-        filter: { document_type: { $eq: "skills" } }
-      },
-      {
-        question: "Tell me about Daniel's work experience",
-        category: "Experience", 
-        filter: { document_type: { $eq: "experience" } }
-      },
-      {
-        question: "What projects has Daniel worked on?",
-        category: "Projects",
-        filter: { document_type: { $eq: "projects" } }
-      },
-      {
-        question: "What is Daniel's educational background?",
-        category: "Education",
-        filter: { content_type: { $eq: "education" } }
-      },
-      {
-        question: "How can I contact Daniel?",
-        category: "Contact",
-        filter: { content_type: { $eq: "contact" } }
-      }
+      { question: "What are Daniel's main technical skills?" },
+      { question: "Tell me about Daniel's work experience" },
+      { question: "What projects has Daniel worked on?" },
+      { question: "What is Daniel's educational background?" },
+      { question: "How can I contact Daniel?" }
     ];
   }
 
