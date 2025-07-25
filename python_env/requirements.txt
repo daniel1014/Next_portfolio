@@ -1,6 +1,6 @@
 pinecone-client>=4.0.0
 python-dotenv>=1.0.0
-unstructured[docx]>=0.13.0
+unstructured[docx,pdf]>=0.13.0
 langchain>=0.1.0
 langchain-pinecone>=0.1.0
 numpy>=1.24.0

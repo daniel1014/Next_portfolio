@@ -19,8 +19,8 @@ from pinecone import Pinecone
 from dotenv import load_dotenv
 
 # Local imports
-from enhanced_document_processor import (
-    EnhancedDocumentProcessor, 
+from document_processor import (
+    UniversalDocumentProcessor, 
     DocumentChunk
 )
 
@@ -45,7 +45,7 @@ class EnhancedPineconeDeployment:
     def __init__(
         self,
         api_key: str = None,
-        index_name: str = "portfolio-knowledge-integrated",
+        index_name: str = "portfolio-knowledge-v2",
         embedding_model: str = "llama-text-embed-v2",
         namespace: str = "portfolio-hierarchy",
         cloud: str = "aws",
@@ -69,10 +69,8 @@ class EnhancedPineconeDeployment:
         self.index = None
         
         # Initialize document processor
-        self.document_processor = EnhancedDocumentProcessor(
-            chunk_size=1000,
-            overlap=200,
-            preserve_hierarchy=True
+        self.document_processor = UniversalDocumentProcessor(
+            chunk_size=1000
         )
         
         self._initialize_index()
@@ -113,39 +111,31 @@ class EnhancedPineconeDeployment:
             raise
     
     def prepare_vectors_for_upsert(self, chunks: List[DocumentChunk]) -> List[Dict[str, Any]]:
-        """Prepare document chunks for Pinecone upsert with metadata"""
+        """Prepare document chunks for Pinecone upsert with metadata aligned to document_processor.py schema."""
         vectors = []
-        
+
         for chunk in chunks:
-            # Optimized metadata structure - removed redundant fields
+            # Metadata schema now matches document_processor.py output
             pinecone_metadata = {
                 "text": chunk.text[:40000],  # Pinecone 40KB text limit
-                "section_id": chunk.metadata.get("section_id"),
+                "section_id": chunk.metadata.get("section_id"),  # Section group identifier
                 "section_title": chunk.metadata.get("section_title"),
-                "content_type": chunk.metadata.get("section_type", "text"),  # Unified type field
-                "hierarchy_level": chunk.metadata.get("hierarchy_level", 1),
-                "chunk_index": chunk.metadata.get("chunk_index", 0),
-                "parent_section": chunk.metadata.get("parent_section", ""),
-                "total_tokens": chunk.metadata.get("total_tokens", 0),
-                "document_type": chunk.metadata.get("document_type", "general"),
                 "created_at": chunk.metadata.get("created_at"),
+                "total_tokens": chunk.metadata.get("total_tokens", 0),
                 "source_file": chunk.metadata.get("source_file", "unknown"),
                 "page_number": chunk.metadata.get("page_number")
             }
-            
             # Remove None values to keep metadata clean
             pinecone_metadata = {
-                k: v for k, v in pinecone_metadata.items() 
+                k: v for k, v in pinecone_metadata.items()
                 if v is not None and v != ""
             }
-            
+            # 'id' is unique per chunk, 'section_id' groups chunks from the same section
             vector_record = {
                 "id": chunk.id,
                 "metadata": pinecone_metadata
             }
-            
             vectors.append(vector_record)
-        
         return vectors
     
     def deploy_document(self, file_path: str) -> Dict[str, Any]:
@@ -153,13 +143,13 @@ class EnhancedPineconeDeployment:
         logger.info(f"Starting deployment of document: {file_path}")
         
         try:
-            # Process document with hierarchical structure
-            hierarchical_doc = self.document_processor.process_docx_file(file_path)
+            # Process document with universal processor
+            processed_doc = self.document_processor.process_file(file_path)
             
             # Extract all chunks
-            chunks = self.document_processor.get_chunks_from_document(hierarchical_doc)
+            chunks = self.document_processor.get_all_chunks(processed_doc, file_path)
             
-            logger.info(f"Processed {len(chunks)} chunks from {len(hierarchical_doc.sections)} sections")
+            logger.info(f"Processed {len(chunks)} chunks from {len(processed_doc.sections)} sections")
             
             # Prepare vectors for upsert
             vectors = self.prepare_vectors_for_upsert(chunks)
@@ -195,7 +185,7 @@ class EnhancedPineconeDeployment:
             deployment_result = {
                 "status": "success",
                 "file_path": file_path,
-                "total_sections": hierarchical_doc.total_chunks,
+                "total_sections": processed_doc.total_chunks,
                 "total_chunks": len(chunks),
                 "deployed_vectors": deployed_count,
                 "index_stats": stats,
@@ -211,122 +201,37 @@ class EnhancedPineconeDeployment:
             logger.error(f"Error deploying document: {e}")
             raise
     
-    def search_hierarchical(
-        self,
-        query_text: str,
-        top_k: int = 5,
-        filter_dict: Dict[str, Any] = None
-    ) -> List[Dict[str, Any]]:
-        """Search with hierarchical filtering support using text matching"""
+    def search(self, query_text: str, top_k: int = 5, filter_dict: dict = None) -> list:
+        """Semantic search using Pinecone's integrated embedding, with optional metadata filtering."""
         try:
-            # Import required classes for search
             from pinecone import SearchQuery
-            
-            # Create search query with integrated embedding
             search_query = SearchQuery(
-                inputs={"text": query_text},  # Text will be auto-embedded
+                inputs={"text": query_text},
                 top_k=top_k,
                 filter=filter_dict if filter_dict else None
             )
-            
-            # Search using integrated embedding - real vector similarity
             response = self.index.search(
                 namespace=self.namespace,
                 query=search_query
             )
-            
-            # Parse results with actual semantic similarity scores
             results = []
-            
-            # Convert response to dict for easy access
             response_dict = response.to_dict()
-            
-            # Handle the SearchRecordsResponse format: response.result.hits
             if response_dict and 'result' in response_dict and 'hits' in response_dict['result']:
                 hits = response_dict['result']['hits']
-                
                 for hit in hits:
-                    # Extract data from the hit structure: {_id, _score, fields: {...}}
                     fields = hit.get('fields', {})
-                    
                     result = {
                         "id": hit.get("_id", ""),
-                        "score": hit.get("_score", 0.0),  # Real vector similarity score (0-1)
-                        "text": fields.get("text", ""),  # Text field is in fields
-                        "metadata": {k: v for k, v in fields.items() if k != "text"}  # Other fields as metadata
+                        "score": hit.get("_score", 0.0),
+                        "text": fields.get("text", ""),
+                        "metadata": {k: v for k, v in fields.items() if k != "text"}
                     }
                     results.append(result)
             logger.info(f"Search results: {results}")
             return results
-            
         except Exception as e:
             logger.error(f"Error searching index: {e}")
             raise
-    
-    def get_contextual_information(
-        self,
-        query: str,
-        max_tokens: int = 4000,
-        min_score: float = 0.7,
-        filter_by_section: Optional[str] = None,
-        filter_by_document_type: Optional[str] = None
-    ) -> Dict[str, Any]:
-        """Get contextual information with hierarchical filtering"""
-        
-        # Build filter
-        filters = {}
-        if filter_by_section:
-            filters["section_title"] = {"$eq": filter_by_section}
-        if filter_by_document_type:
-            filters["document_type"] = {"$eq": filter_by_document_type}
-        
-        # Combine filters with AND if multiple
-        filter_dict = None
-        if filters:
-            if len(filters) > 1:
-                filter_dict = {"$and": [
-                    {k: v} for k, v in filters.items()
-                ]}
-            else:
-                filter_dict = filters
-        
-        # Search for relevant chunks
-        results = self.search_hierarchical(
-            query_text=query,
-            top_k=10,
-            filter_dict=filter_dict
-        )
-        
-        # Filter by score and assemble context
-        relevant_chunks = [r for r in results if r["score"] >= min_score]
-        
-        context_parts = []
-        current_tokens = 0
-        sections_used = set()
-        
-        for result in relevant_chunks:
-            text_tokens = len(result["text"]) // 4  # Rough token estimate
-            
-            if current_tokens + text_tokens <= max_tokens:
-                section_title = result["metadata"].get("section_title", "Unknown")
-                context_parts.append({
-                    "text": result["text"],
-                    "section": section_title,
-                    "score": result["score"],
-                    "metadata": result["metadata"]
-                })
-                sections_used.add(section_title)
-                current_tokens += text_tokens
-            else:
-                break
-        
-        return {
-            "context_parts": context_parts,
-            "total_tokens": current_tokens,
-            "sections_used": list(sections_used),
-            "total_matches": len(results),
-            "relevant_matches": len(relevant_chunks)
-        }
     
     def get_index_stats(self) -> Dict[str, Any]:
         """Get enhanced index statistics"""
@@ -351,32 +256,21 @@ class EnhancedPineconeDeployment:
         except Exception as e:
             logger.error(f"Error deleting namespace: {e}")
             raise
-    
-    def list_example_filters(self) -> Dict[str, Dict[str, Any]]:
-        """Return example filters for different use cases"""
-        return {
-            "experience_only": {"document_type": {"$eq": "experience"}},
-            "skills_and_technical": {"document_type": {"$in": ["skills", "projects"]}},
-            "section_headers": {"section_type": {"$eq": "section_header"}},
-            "project_content": {"has_projects": {"$eq": True}},
-            "high_level_content": {"hierarchy_level": {"$lte": 2}},
-            "recent_content": {
-                "$and": [
-                    {"document_type": {"$eq": "experience"}},
-                    {"hierarchy_level": {"$lte": 3}}
-                ]
-            }
-        }
 
 def main():
     """Main deployment and testing function"""
     
-    # File path
-    docx_path = "/Users/daniel/Documents/javascript/Next_portfolio/docs/daniel_background_20250722.docx"
+    docx_paths = [
+        "/Users/daniel/Documents/javascript/Next_portfolio/docs/Background_20250722.docx",
+        "/Users/daniel/Documents/javascript/Next_portfolio/docs/Resume.pdf",
+        "/Users/daniel/Documents/javascript/Next_portfolio/docs/Cover_Letter.docx"
+    ]
     
-    # Check if file exists
-    if not os.path.exists(docx_path):
-        logger.error(f"Document file not found: {docx_path}")
+    # Check if all files exist before proceeding
+    missing_files = [path for path in docx_paths if not os.path.exists(path)]
+    if missing_files:
+        for missing in missing_files:
+            logger.error(f"Document file not found: {missing}")
         return
     
     try:
@@ -386,7 +280,10 @@ def main():
         
         # Deploy document
         logger.info("Deploying document with hierarchical structure...")
-        result = deployment.deploy_document(docx_path)
+        results = []
+        for file_path in docx_paths:
+            result = deployment.deploy_document(file_path)
+            results.append(result)
         
         # Display results
         print(f"\n=== Deployment Results ===")
@@ -409,44 +306,38 @@ def main():
         test_queries = [
             {
                 "query": "What are Daniel's main technical skills?",
-                "filter": {"document_type": {"$eq": "skills"}}
+                "filter": {"source_file": {"$eq": "Resume.pdf"}}
             },
             {
                 "query": "Tell me about Daniel's recent work experience",
-                "filter": {"document_type": {"$eq": "experience"}}
+                "filter": {"source_file": {"$eq": "Resume.pdf"}}
             },
             {
                 "query": "What projects has Daniel worked on?",
-                "filter": {"has_projects": {"$eq": True}}
+                "filter": {"source_file": {"$eq": "Background_20250722.docx"}}
             }
         ]
         
-        print(f"\n=== Testing Hierarchical Search ===")
+        print(f"\n=== Testing Semantic Search with and without Filters ===")
         for i, test in enumerate(test_queries, 1):
             print(f"\nTest {i}: {test['query']}")
-            print(f"Filter: {test['filter']}")
-            
+            if 'filter' in test and test['filter']:
+                print(f"Filter: {json.dumps(test['filter'])}")
+            else:
+                print("Filter: None")
             try:
-                context_info = deployment.get_contextual_information(
-                    query=test['query'],
-                    filter_by_document_type=test['filter']['document_type']['$eq'] if 'document_type' in test['filter'] else None
+                context_info = deployment.search(
+                    query_text=test['query'],
+                    top_k=10,
+                    filter_dict=test.get('filter')
                 )
-                
-                print(f"Found {context_info['relevant_matches']} relevant matches")
-                print(f"Sections used: {', '.join(context_info['sections_used'])}")
-                
-                if context_info['context_parts']:
-                    best_match = context_info['context_parts'][0]
+                print(f"Found {len(context_info)} relevant matches")
+                if context_info:
+                    best_match = context_info[0]
                     print(f"Best match preview: {best_match['text'][:200]}...")
-                
+                    print(f"Source file: {best_match['metadata'].get('source_file', 'N/A')}")
             except Exception as e:
                 print(f"Error in test query: {e}")
-        
-        # Show example filters
-        print(f"\n=== Available Filter Examples ===")
-        examples = deployment.list_example_filters()
-        for name, filter_dict in examples.items():
-            print(f"{name}: {json.dumps(filter_dict, indent=2)}")
         
         logger.info("Deployment and testing completed successfully!")
         
