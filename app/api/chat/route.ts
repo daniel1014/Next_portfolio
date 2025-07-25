@@ -21,14 +21,8 @@ export async function POST(request: NextRequest) {
     // Get Pinecone service instance
     const pineconeService = getPineconeService();
     
-    // Get context from Pinecone vector store
-    const contextResponse = await pineconeService.getContextForQuestion(message);
-    
-    // Get raw search results for debugging
-    const rawSearchResults = await pineconeService.searchHierarchical(message, {
-      topK: 5,
-      minScore: 0.1
-    });
+    // Get context and raw search results from Pinecone vector store (single call)
+    const pineconeResponse = await pineconeService.search(message);
     
     // Mock person info since we have it in our context now
     const personInfo = {
@@ -53,9 +47,9 @@ Bio: ${personInfo.properties.bio}
 ` : ''}
 
 Relevant Context from Vector Database:
-${contextResponse.context}
+${pineconeResponse.context}
 
-Sources Used: ${contextResponse.sources.join(', ')}
+Sources Used: ${pineconeResponse.sources.join(', ')}
 
 Previous Conversation:
 ${conversationHistory.map((msg: any) => `${msg.role}: ${msg.content}`).join('\n')}
@@ -70,41 +64,94 @@ Instructions:
 5. Don't make up information that isn't in the provided context
 6. If asked about projects, mention specific technologies and details from the context
 7. Reference the specific sections when providing information (e.g., "From his Technical Skills section...")
+8. Format your response using markdown for better readability (use **bold**, *italic*, code blocks, lists, etc.)
 
 Please provide a helpful response about Daniel's portfolio:
 `;
 
-    // Generate response using Gemini
-    const result = await model.generateContent(contextPrompt);
-    const response = result.response;
-    const responseText = response.text();
-
-    // Get suggested questions for better UX
-    const suggestedQuestions = pineconeService.getSuggestedQuestions().map(q => q.question);
-
-    return NextResponse.json({
-      response: responseText,
-      suggestedQuestions: suggestedQuestions.slice(0, 3), // Limit to 3 suggestions
-      context: {
-        sources: contextResponse.sources,
-        sectionsUsed: contextResponse.sectionsUsed,
-        hasRelevantInfo: contextResponse.hasRelevantInfo,
-        totalTokens: contextResponse.totalTokens
-      },
-      // Debug information - actual vector chunks retrieved
-      debugInfo: {
-        query: message,
-        rawSearchResults: rawSearchResults.map(result => ({
-          id: result.id,
-          score: result.score,
-          text: result.text.substring(0, 500) + (result.text.length > 500 ? '...' : ''), // Truncate for readability
-          fullText: result.text, // Full text for detailed inspection
-          metadata: result.metadata
-        })),
-        contextUsed: contextResponse.context,
-        searchResultsCount: rawSearchResults.length,
-        timestamp: new Date().toISOString()
+    // Create a readable stream for streaming response
+    const stream = new ReadableStream({
+      async start(controller) {
+        try {
+          // Generate streaming response using Gemini
+          const result = await model.generateContentStream(contextPrompt);
+          
+          let fullResponse = '';
+          
+          // Get suggested questions for better UX
+          const suggestedQuestions = pineconeService.getSuggestedQuestions().map(q => q.question);
+          
+          // Send initial metadata
+          const initialData = {
+            type: 'metadata',
+            suggestedQuestions: suggestedQuestions.slice(0, 3),
+            context: {
+              sources: pineconeResponse.sources,
+              hasRelevantInfo: pineconeResponse.hasRelevantInfo,
+              totalTokens: pineconeResponse.totalTokens
+            },
+            debugInfo: {
+              query: message,
+              rawSearchResults: pineconeResponse.results.map((result: any) => ({
+                id: result.id,
+                score: result.score,
+                text: result.text.substring(0, 500) + (result.text.length > 500 ? '...' : ''),
+                fullText: result.text,
+                metadata: result.metadata
+              })),
+              contextUsed: pineconeResponse.context,
+              searchResultsCount: pineconeResponse.results.length,
+              timestamp: new Date().toISOString()
+            }
+          };
+          
+          controller.enqueue(new TextEncoder().encode(`data: ${JSON.stringify(initialData)}\n\n`));
+          
+          // Stream the response chunks
+          for await (const chunk of result.stream) {
+            const chunkText = chunk.text();
+            fullResponse += chunkText;
+            
+            const streamData = {
+              type: 'chunk',
+              content: chunkText,
+              fullResponse: fullResponse
+            };
+            
+            controller.enqueue(new TextEncoder().encode(`data: ${JSON.stringify(streamData)}\n\n`));
+          }
+          
+          // Send completion signal
+          const completionData = {
+            type: 'complete',
+            fullResponse: fullResponse
+          };
+          
+          controller.enqueue(new TextEncoder().encode(`data: ${JSON.stringify(completionData)}\n\n`));
+          controller.close();
+          
+        } catch (streamError) {
+          console.error('Streaming error:', streamError);
+          
+          // Send error in stream format
+          const errorData = {
+            type: 'error',
+            error: streamError?.toString() || 'Streaming failed',
+            fallbackResponse: generateFallbackResponse(message || 'general inquiry')
+          };
+          
+          controller.enqueue(new TextEncoder().encode(`data: ${JSON.stringify(errorData)}\n\n`));
+          controller.close();
+        }
       }
+    });
+
+    return new Response(stream, {
+      headers: {
+        'Content-Type': 'text/event-stream',
+        'Cache-Control': 'no-cache',
+        'Connection': 'keep-alive',
+      },
     });
 
   } catch (error) {

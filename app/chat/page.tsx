@@ -3,11 +3,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { Send, Sparkles, MessageCircle, Loader2, Bug } from 'lucide-react';
+import MarkdownRenderer from '@/components/MarkdownRenderer';
 
 interface Message {
   text: string;
   sender: 'user' | 'ai';
   timestamp: Date;
+  isStreaming?: boolean;
 }
 
 interface ChatResponse {
@@ -104,6 +106,16 @@ const ChatPage = () => {
     setInput('');
     setIsLoading(true);
 
+    // Create placeholder AI message for streaming
+    const streamingMessage: Message = {
+      text: '',
+      sender: 'ai',
+      timestamp: new Date(),
+      isStreaming: true
+    };
+    
+    setMessages(prev => [...prev, streamingMessage]);
+
     try {
       const response = await fetch('/api/chat', {
         method: 'POST',
@@ -116,41 +128,106 @@ const ChatPage = () => {
         }),
       });
 
-      const data: ChatResponse = await response.json();
-      
-      const aiMessage: Message = {
-        text: data.response,
-        sender: 'ai',
-        timestamp: new Date()
-      };
-
-      setMessages(prev => [...prev, aiMessage]);
-      
-      if (data.suggestedQuestions) {
-        setSuggestedQuestions(data.suggestedQuestions);
+      if (!response.body) {
+        throw new Error('No response body received');
       }
 
-      // Store debug information
-      if (data.debugInfo) {
-        setDebugInfo(data.debugInfo);
-        console.log('Vector Search Debug Info:', data.debugInfo);
-      }
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+      let fullResponse = '';
+      let receivedMetadata = false;
 
-      // Update conversation history
-      setConversationHistory(prev => [
-        ...prev,
-        { role: 'user', content: textToSend },
-        { role: 'assistant', content: data.response }
-      ]);
+      try {
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+
+          const chunk = decoder.decode(value);
+          const lines = chunk.split('\n');
+
+          for (const line of lines) {
+            if (line.startsWith('data: ')) {
+              try {
+                const data = JSON.parse(line.slice(6));
+                
+                if (data.type === 'metadata' && !receivedMetadata) {
+                  // Handle initial metadata
+                  if (data.suggestedQuestions) {
+                    setSuggestedQuestions(data.suggestedQuestions);
+                  }
+                  if (data.debugInfo) {
+                    setDebugInfo(data.debugInfo);
+                    console.log('Vector Search Debug Info:', data.debugInfo);
+                  }
+                  receivedMetadata = true;
+                } else if (data.type === 'chunk') {
+                  // Handle streaming content
+                  fullResponse = data.fullResponse;
+                  
+                  // Update the streaming message
+                  setMessages(prev => {
+                    const newMessages = [...prev];
+                    const lastMessage = newMessages[newMessages.length - 1];
+                    if (lastMessage.sender === 'ai' && lastMessage.isStreaming) {
+                      lastMessage.text = fullResponse;
+                    }
+                    return newMessages;
+                  });
+                } else if (data.type === 'complete') {
+                  // Mark streaming as complete
+                  setMessages(prev => {
+                    const newMessages = [...prev];
+                    const lastMessage = newMessages[newMessages.length - 1];
+                    if (lastMessage.sender === 'ai' && lastMessage.isStreaming) {
+                      lastMessage.text = data.fullResponse;
+                      lastMessage.isStreaming = false;
+                    }
+                    return newMessages;
+                  });
+                  
+                  // Update conversation history
+                  setConversationHistory(prev => [
+                    ...prev,
+                    { role: 'user', content: textToSend },
+                    { role: 'assistant', content: data.fullResponse }
+                  ]);
+                } else if (data.type === 'error') {
+                  // Handle streaming error
+                  console.error('Streaming error:', data.error);
+                  
+                  setMessages(prev => {
+                    const newMessages = [...prev];
+                    const lastMessage = newMessages[newMessages.length - 1];
+                    if (lastMessage.sender === 'ai' && lastMessage.isStreaming) {
+                      lastMessage.text = data.fallbackResponse || 'Sorry, I encountered an error. Please try again later.';
+                      lastMessage.isStreaming = false;
+                    }
+                    return newMessages;
+                  });
+                }
+              } catch (parseError) {
+                console.error('Error parsing stream data:', parseError);
+              }
+            }
+          }
+        }
+      } finally {
+        reader.releaseLock();
+      }
 
     } catch (error) {
       console.error('Error sending message:', error);
-      const errorMessage: Message = {
-        text: 'Sorry, I encountered an error. Please try again later.',
-        sender: 'ai',
-        timestamp: new Date()
-      };
-      setMessages(prev => [...prev, errorMessage]);
+      
+      // Remove streaming message and add error message
+      setMessages(prev => {
+        const newMessages = prev.slice(0, -1); // Remove streaming message
+        return [...newMessages, {
+          text: 'Sorry, I encountered an error. Please try again later.',
+          sender: 'ai',
+          timestamp: new Date(),
+          isStreaming: false
+        }];
+      });
     } finally {
       setIsLoading(false);
     }
@@ -200,12 +277,26 @@ const ChatPage = () => {
                             ? 'bg-blue-600 text-white' 
                             : 'bg-gray-700 text-gray-300'
                         }`}>
-                          <p className="whitespace-pre-wrap">{message.text}</p>
+                          {message.sender === 'user' ? (
+                            <p className="whitespace-pre-wrap">{message.text}</p>
+                          ) : (
+                            <div className="relative">
+                              <MarkdownRenderer content={message.text} />
+                              {message.isStreaming && (
+                                <div className="inline-flex items-center ml-1">
+                                  <div className="w-2 h-4 bg-blue-400 animate-pulse"></div>
+                                </div>
+                              )}
+                            </div>
+                          )}
                         </div>
                         <div className={`text-xs text-gray-500 mt-1 ${
                           message.sender === 'user' ? 'text-right' : 'text-left'
                         }`}>
                           {formatTimestamp(message.timestamp)}
+                          {message.isStreaming && (
+                            <span className="ml-2 text-blue-400">Typing...</span>
+                          )}
                         </div>
                       </div>
                     </div>
