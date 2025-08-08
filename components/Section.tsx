@@ -22,7 +22,7 @@ const Section: React.FC<{ title: string; children: React.ReactNode; id: string }
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="text-4xl md:text-5xl font-bold mb-4 text-gray-200"
+          className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent"
         >
           {title}
         </motion.h2>
@@ -31,7 +31,7 @@ const Section: React.FC<{ title: string; children: React.ReactNode; id: string }
           whileInView={{ width: getUnderlineWidth() }}
           viewport={{ once: true }}
           transition={{ duration: 1, delay: 0.3, ease: "easeOut" }}
-          className="h-1 mx-auto bg-gradient-to-r from-blue-400 to-purple-500 rounded-full"
+          className="h-1 mx-auto bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 rounded-full"
         />
       </AnimatedSection>
       <AnimatedSection delay={0.2}>
