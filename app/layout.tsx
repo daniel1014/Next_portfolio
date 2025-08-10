@@ -1,5 +1,6 @@
 'use client';
 
+import '../sentry.client.config';
 import './globals.css'
 import { Inter } from 'next/font/google'
 import { useEffect } from 'react'

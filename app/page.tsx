@@ -15,6 +15,7 @@ import { Trophy, Users, Calendar, Code } from 'lucide-react';
 import AuroraDivider from '@/components/AuroraDivider';
 import ParticleBackground from '@/components/ParticleBackground';
 import ContactFormDialog from '@/components/ContactFormDialog';
+import FeedbackButton from '@/components/FeedbackButton';
 
 
 const PortfolioPage = () => {
@@ -81,19 +82,19 @@ const PortfolioPage = () => {
       title: "TrilloDocs - AI Document Processing Platform",
       period: "May 2025 - July 2025",
       images: projectImages_3,
-      frontDescription: "A comprehensive AI-powered document processing platform that transforms PDF and DOCX files into structured data using advanced LLM technology with modern, interactive user interface.",
+      frontDescription: "Turns PDF/DOCX into clean, structured JSON with one‑click downloads and local history. Built for speed, reliability, and clear results.",
       backDetails: [
         {
-          title: "Full-Stack AI Integration",
-          description: "Built a complete document processing web application using Next.js frontend and Python FastAPI backend, leveraging Google's Gemini LLM with Langchain for intelligent document analysis and structured data extraction from PDF/DOCX files."
+          title: "End-to-end stack",
+          description: "Next.js + FastAPI with Gemini via LangChain. Async pipeline for parse → extract → validate, with local session processing history."
         },
         {
           title: "Modern Interactive UI/UX",
           description: "Designed a sophisticated interface featuring animated particle backgrounds, gradient effects, glowing elements, and smooth transitions using Tailwind CSS, Framer Motion, and Shadcn UI components for an engaging user experience."
         },
         {
-          title: "Smart Document Management",
-          description: "Implemented comprehensive document handling with upload validation, processing history tracking, downloadable JSON results, and real-time status updates, demonstrating scalable file processing architecture."
+          title: "Structured output with LangChain",
+          description: "Uses LangChain tool calling to generate and validate structured outputs with custom schema design."
         }
       ],
       technologies: ["Next.js", "Python", "FastAPI", "Gemini LLM", "Langchain", "Tailwind CSS", "Framer Motion", "Shadcn UI"],
@@ -107,22 +108,22 @@ const PortfolioPage = () => {
       title: "News Scraping Web App with LLM",
       period: "December 2023 - December 2024",
       images: projectImages_1,
-      frontDescription: "An advanced AI-powered web application that combines news scraping, chatbot functionality, and cutting-edge RAG techniques for intelligent data retrieval and analysis.",
+      frontDescription: "LLM-powered news intelligence solution: scrape real-time news sources, summarise and chat with instant knowledge, upload lengthy PDF documents and chatbot is yours to keep.",
       backDetails: [
         {
-          title: "RAG Technique Implementation",
-          description: "Implemented advanced Retrieval Augmented Generation (RAG) techniques to enhance the chatbot's knowledge base. Compared the performance of different RAG techniques (e.g., Hybrid Search, Vector Semantic Search) and data extraction methods to determine the most effective approach."
+          title: "Advanced RAG Architecture",
+          description: "Implemented a hybrid search approach combining keyword (BM25) and vector (semantic) retrieval, optimized chunking strategies, and extraction methods. Adopted an open-source embedding model after evaluating multiple RAG setups. Integrated Cohere Reranker to further boost retrieval accuracy, balancing latency and quality."
         },
         {
-          title: "Cloud Deployment Optimization",
-          description: "Collaborated with Microsoft Technical Specialists to gain a deeper understanding of Azure cloud hosting specifications, ensuring the AI-powered web application can handle concurrent user logins and scale effectively at production level."
+          title: "Cloud Deployment & Scale",
+          description: "Deployed to Azure and tuned for concurrent users and predictable costs. Explored Azure AI Search for efficient search and retrieval."
         },
         {
-          title: "Advanced Analytics Visualisation",
-          description: "Integrated advanced natural language processing techniques for news article summarization, sentiment analysis, and topic modeling along with interactive visualisation built with Streamlit."
+          title: "Intuitive Dashboard & Visualization",  
+          description: "Interactive dashboard for real-time news monitoring with sentiment analysis, topic modeling, and quick summary."
         }
       ],
-      technologies: ["Python", "Azure", "LangChain", "Streamlit", "Vector Database"],
+      technologies: ["Python", "Azure", "LangChain", "Streamlit", "Vector Database", "BM25", "Cohere Reranker", "Open-source Embedding Model"],
       links: {
         github: "https://github.com/daniel1014/Next_portfolio"
       }
@@ -131,25 +132,67 @@ const PortfolioPage = () => {
       title: "Team Internal Tool - CV Chatbot",
       period: "July 2024 - October 2024",
       images: projectImages_2,
-      frontDescription: "An intelligent conversational AI chatbot designed for internal team use, utilizing LLM technology to provide information about team members' skills, experience, and education.",
+      frontDescription: "Private LLM assistant that answers questions about team skills, roles, and projects with high precision.",
       backDetails: [
         {
-          title: "Chatbot Development",
-          description: "Designed and developed a conversational AI chatbot for internal team use, utilizing a large language model (LLM) to simulate human-like conversations. The chatbot was trained on a dataset of CVs to provide information on team members' skills and experience."
+          title: "Domain-tuned",
+          description: "Embedded CVs into a vector store and prompt-tuned for grounded, accurate answers."
         },
         {
-          title: "Integration with Existing Systems",
-          description: "Integrated the chatbot with a vector database and company's existing SharePoint site to fetch real-time data on team members, ensuring the chatbot's knowledge base was always up-to-date."
+          title: "Systems integration",
+          description: "Vector database + SharePoint connectors to keep knowledge up to date."
         },
         {
-          title: "User Interface Design",
-          description: "Designed a user-friendly interface for the chatbot, ensuring a seamless user experience. The interface included features such as a chat window, user authentication, and knowledge base search functionality."
+          title: "Focused UX",
+          description: "Clean chat UI with auth and scoped search for faster retrieval."
         }
       ],
       technologies: ["Python", "LLM", "SharePoint", "Vector Database", "UI/UX"],
       links: {
         demo: "https://daniel-wong-portfolio.vercel.app/chat"
       }
+    },
+    {
+      title: "Planning Context Report Automation",
+      period: "2024",
+      images: projectImages_1, // placeholder images
+      frontDescription: "Automates planning context reports by searching, extracting, and summarising public documents into structured sections.",
+      backDetails: [
+        {
+          title: "Data ingestion",
+          description: "Scrapes PDFs/HTML and normalises geospatial and policy data for analysis."
+        },
+        {
+          title: "LLM synthesis",
+          description: "RAG pipeline produces concise, cited summaries and recommendations."
+        },
+        {
+          title: "Delivery",
+          description: "Exports structured content ready for client formatting and review."
+        }
+      ],
+      technologies: ["Python", "LangChain", "Streamlit", "Azure", "Vector Database"]
+    },
+    {
+      title: "Trustvibe - Reputation Intelligence Prototype",
+      period: "2025",
+      images: projectImages_2, // placeholder images
+      frontDescription: "Prototype that analyses reviews and social signals to surface trust insights and risk flags.",
+      backDetails: [
+        {
+          title: "Signal fusion",
+          description: "Combines keyword, sentiment, and entity analysis with embedding-based clustering."
+        },
+        {
+          title: "Explainable outputs",
+          description: "Evidence-linked summaries and scorecards for transparent decisions."
+        },
+        {
+          title: "Scalable design",
+          description: "Next.js frontend with FastAPI services and vector search for low-latency queries."
+        }
+      ],
+      technologies: ["Next.js", "TypeScript", "Python", "FastAPI", "Pinecone", "Tailwind CSS"]
     }
   ];
 
@@ -233,7 +276,7 @@ const PortfolioPage = () => {
       <header className="text-white h-screen flex items-center relative z-10">
         <div className="container mx-auto px-6 text-center">
           <h1 className="text-4xl sm:text-6xl font-bold mb-6 animate-fade-in bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">Daniel (Chuen Lik) Wong</h1>
-          <p className="text-2xl mb-10 animate-fade-in-delay text-gray-300">AI Engineer | Data Scientist | Innovation Enthusiast</p>
+          <p className="text-2xl mb-10 animate-fade-in-delay text-gray-300">Full-stack Developer | AI Engineer | Innovation Enthusiast</p>
           {/* <button onClick={() => scrollTo('about')} className="bg-blue-500 text-white px-8 py-3 rounded-full hover:bg-blue-600 transition duration-300 shadow-lg animate-bounce">
             Explore My Work <ChevronDown className="inline ml-2" />
           </button> */}
@@ -250,16 +293,22 @@ const PortfolioPage = () => {
 
       {/* Main content */}
       <main className="container mx-auto px-6 py-32 max-w-6xl relative z-10" id="about">
-        <Section title="About Me" id="about_me" >
+        <Section title="About Me" id="about_me">
           <div className="bg-card-gradient backdrop-blur-lg border border-white/10 rounded-2xl shadow-2xl p-8 hover:shadow-blue-500/20 hover:scale-[1.02] transition-all duration-500">
-            <p className="text-xl text-gray-200 mb-8 leading-relaxed font-light">
-              {`I'm a versatile and enthusiastic professional with a master's degree in computing and information systems.`}
-              {`My passion lies in driving impactful innovation in AI, and I'm proficient in leveraging cutting-edge technologies such as Large Language Models (LLM) to tackle complex tasks.`}
+            <p className="text-base sm:text-lg text-gray-200 mb-8 leading-relaxed font-light">
+              Curiosity has always driven my journey as a developer.
             </p>
-            <p className="text-xl text-gray-200 leading-relaxed font-light">
-              With a strong background in data analytics, machine learning, and software development, I bring a unique 
-              blend of technical skills and business acumen to every project. My goal is to contribute to groundbreaking 
-              AI solutions that make a real difference in the world.
+            <p className="text-base sm:text-lg text-gray-200 mb-8 leading-relaxed font-light">
+              I began my career in a multinational energy company, where I witnessed firsthand how technology transforms industries from the inside out. This experience inspired me to pivot into tech—teaching myself to code and later pursuing formal training in computing and AI.
+            </p>
+            <p className="text-base sm:text-lg text-gray-200 mb-8 leading-relaxed font-light">
+              In 2023, after the release of ChatGPT, I built an AI-powered news scraping app. It quickly evolved into a full-stack system with LLMs (RAG), semantic search, PDF parsing, and sentiment analysis—all deployed on the cloud.
+            </p>
+            <p className="text-base sm:text-lg text-gray-200 mb-8 leading-relaxed font-light">
+              That project sharpened my skills and ignited a passion for building scalable, data-driven applications that don’t just work, but think and adapt.
+            </p>
+            <p className="text-base sm:text-lg text-gray-200 leading-relaxed font-light">
+              Today, I focus on delivering intelligent solutions that bring real impact to users and businesses alike.
             </p>
           </div>
           
@@ -309,40 +358,41 @@ const PortfolioPage = () => {
             <div className="relative z-10 grid md:grid-cols-2 gap-12">
               <div>
                 <h3 className="text-2xl font-semibold mb-6 text-blue-400">Technical Skills</h3>
-                <SkillCategory 
-                  category="Python" 
+                <SkillCategory
+                  category="AI / LLM"
                   skills={[
-                    { name: "Core Python", level: 95 },
-                    { name: "LLM agentic frameworks (e.g. LangChain, LlamaIndex)", level: 90 },
-                    { name: "ETL pipeline (e.g. Pandas)", level: 90 },
-                    { name: "RESTful APIs (e.g. Flask)", level: 80 },
-                  ]} 
+                    { name: "Prompt engineering & evaluation", level: 90 },
+                    { name: "LangChain / LlamaIndex", level: 90 },
+                    { name: "RAG (chunking, hybrid search)", level: 90 },
+                    { name: "Agents (CrewAI)", level: 80 },
+                  ]}
                 />
-                <SkillCategory 
-                  category="Data" 
+                <SkillCategory
+                  category="Backend"
                   skills={[
-                    { name: "Excel (VBA)", level: 90 },
-                    { name: "SQL", level: 75 },
-                    { name: "Dashboard Visualisation (e.g. PowerBI)", level: 95 },
-                  ]} 
+                    { name: "Python (FastAPI)", level: 90 },
+                    { name: "REST APIs & webhooks", level: 85 },
+                    { name: "Node.js / Next.js API routes", level: 80 },
+                    { name: "Auth & sessions", level: 75 },
+                  ]}
                 />
-                <SkillCategory 
-                  category="Cloud" 
+                <SkillCategory
+                  category="Frontend"
                   skills={[
-                    { name: "Azure (e.g. Web App Service, AI Search)", level: 80 },
-                    { name: "Vector Database (e.g. Qdrant, Pinecone)", level: 90 },
-                    { name: "Relational Database (e.g. SQL, PostgreSQL)", level: 80 }, 
-                    { name: "Machine Learning (e.g. Regression, Time-series)", level: 90 }
-                  ]} 
+                    { name: "Next.js / React", level: 80 },
+                    { name: "TypeScript", level: 75 },
+                    { name: "Tailwind CSS & Framer Motion", level: 85 },
+                    { name: "Shadcn UI", level: 80 },
+                  ]}
                 />
-                <SkillCategory 
-                  category="Web Development" 
+                <SkillCategory
+                  category="Data & Cloud"
                   skills={[
-                    { name: "Next.js/React", level: 70 },
-                    { name: "JavaScript/TypeScript", level: 70 },
-                    { name: "Streamlit", level: 95 },
-                    { name: "Dash (Plotly)", level: 85 },
-                  ]} 
+                    { name: "Vector DBs (Pinecone, Qdrant)", level: 90 },
+                    { name: "Azure (App Service, AI Search)", level: 80 },
+                    { name: "PostgreSQL / SQL", level: 80 },
+                    { name: "Streamlit / Dash", level: 90 },
+                  ]}
                 />
               </div>
               <div>
@@ -375,7 +425,9 @@ const PortfolioPage = () => {
 
         {/* Contact Section */}     
         <Section title="Contact" id="contact">
-          <div className="bg-card-gradient backdrop-blur-lg border border-white/10 rounded-2xl shadow-2xl p-8 hover:shadow-blue-500/20 hover:scale-[1.02] transition-all duration-500">
+          {/* Full-viewport center wrapper (mobile-first) */}
+          <div className="md:min-h-0 min-h-[100svh] grid place-items-center">
+            <div className="bg-card-gradient backdrop-blur-lg border border-white/10 rounded-2xl shadow-2xl p-8 hover:shadow-blue-500/20 hover:scale-[1.02] transition-all duration-500 w-full">
             <div className="flex flex-col md:flex-row justify-between">
               <div className="mb-8 md:mb-0">
                 <p className="flex items-center mb-4 text-gray-300"><Phone className="mr-3 text-blue-400" /> +44 7432 336788</p>
@@ -403,6 +455,7 @@ const PortfolioPage = () => {
                 </form>
               </div>
             </div>
+            </div>
           </div>
         </Section>
       </main>
@@ -417,6 +470,7 @@ const PortfolioPage = () => {
 
           {/* Right: Socials */}
           <div className="flex items-center gap-4">
+            <FeedbackButton />
             <a
               href="https://github.com/daniel1014"
               target="_blank"
