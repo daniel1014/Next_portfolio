@@ -4,77 +4,32 @@ import { motion } from 'framer-motion';
 
 const AuroraDivider: React.FC = () => {
   return (
-    <div className="relative w-full h-24 flex items-center justify-center my-16">
-      {/* Main aurora line */}
+    <div className="relative w-full h-12 sm:h-14 my-10 sm:my-16 pointer-events-none" aria-hidden>
+      {/* Subtle wide glow */}
       <motion.div
-        initial={{ width: 0, opacity: 0 }}
-        whileInView={{ width: '100%', opacity: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 2, ease: "easeOut" }}
-        className="relative h-px bg-gradient-to-r from-transparent via-blue-500/50 to-transparent"
+        className="absolute left-[12%] right-[12%] top-1/2 -translate-y-1/2 h-10 sm:h-12 bg-gradient-to-r from-purple-500/10 via-fuchsia-500/10 to-cyan-500/10 blur-3xl rounded-full"
+        animate={{ opacity: [0.5, 0.8, 0.5] }}
+        transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
       />
-      
-      {/* Glowing aurora effects */}
+
+      {/* Hairline base */}
+      <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-px bg-gradient-to-r from-transparent via-white/25 to-transparent z-0" />
+
+      {/* Moving sheen across the entire line */}
       <motion.div
-        initial={{ scale: 0, opacity: 0 }}
-        whileInView={{ scale: 1, opacity: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 1.5, delay: 0.5, ease: "easeOut" }}
-        className="absolute inset-0 bg-gradient-to-r from-transparent via-purple-500/20 to-transparent blur-sm"
+        className="absolute top-1/2 -translate-y-1/2 h-[2px] w-48 sm:w-64 bg-gradient-to-r from-transparent via-white/80 to-transparent mix-blend-screen z-10"
+        initial={{ left: '-15%' }}
+        animate={{ left: '115%' }}
+        transition={{ duration: 5.5, repeat: Infinity, ease: 'linear' }}
       />
-      
-      {/* Center aurora burst */}
-      <motion.div
-        initial={{ scale: 0, opacity: 0 }}
-        whileInView={{ scale: 1, opacity: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 1, delay: 1, type: "spring", stiffness: 200 }}
-        animate={{
-          scale: [1, 1.1, 1],
-          opacity: [0.7, 1, 0.7],
-          transition: {
-            duration: 4,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }
-        }}
-        className="absolute w-4 h-4 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full shadow-lg shadow-blue-500/50"
-      />
-      
-      {/* Side aurora particles */}
-      <motion.div
-        initial={{ x: -100, opacity: 0 }}
-        whileInView={{ x: 0, opacity: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 1.5, delay: 0.8 }}
-        animate={{
-          y: [0, -5, 0],
-          opacity: [0.5, 1, 0.5],
-          transition: {
-            duration: 3,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }
-        }}
-        className="absolute left-1/4 w-2 h-2 bg-gradient-to-r from-emerald-400 to-blue-400 rounded-full shadow-sm shadow-emerald-400/50"
-      />
-      
-      <motion.div
-        initial={{ x: 100, opacity: 0 }}
-        whileInView={{ x: 0, opacity: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 1.5, delay: 0.8 }}
-        animate={{
-          y: [0, 5, 0],
-          opacity: [0.5, 1, 0.5],
-          transition: {
-            duration: 3.5,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }
-        }}
-        className="absolute right-1/4 w-2 h-2 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full shadow-sm shadow-purple-400/50"
-      />
+
+      {/* Traveling particles (aligned with the line) */}
+      {/* <motion.div
+        className="absolute top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-gradient-to-r from-cyan-400 to-purple-400 shadow-[0_0_10px_rgba(59,130,246,0.45)] z-10"
+        initial={{ left: '-10%' }}
+        animate={{ left: '110%', y: [0, -1, 0] }}
+        transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut' }}
+      /> */}
     </div>
   );
 };

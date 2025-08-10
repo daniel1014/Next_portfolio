@@ -51,12 +51,27 @@ const PortfolioPage = () => {
     "/photos/trilodocs_4.png",
   ];
 
+  // Added PlanningHub startup experience to reflect recent, relevant software engineering work in an early-stage AI SaaS environment.
   const experiences = [
+    {
+      title: "Software Developer",
+      company: "PlanningHub (Early-stage Tech Startup)",
+      location: "London, United Kingdom",
+      period: "November 2024 - March 2025",
+      description: [
+        "Led the development of a greenfield, AI-driven SaaS platform, architecting both frontend and backend systems using React (TypeScript) and Python (asyncio, aiohttp).",
+        "Integrated with an existing microservices-based architecture, ensuring seamless connectivity between frontend and backend services within a Dockerized embedded environment on WSL.",
+        "Created an external API service to intermediate between frontend and other microservices, maintaining a multi-layered API ecosystem and optimising data flow and security.",
+        "Enhanced frontend performance and usability, integrating Recoil for state management, Material-UI for a modern UI, and Google Maps API & Places Autocomplete for a seamless user experience.",
+        "Designed an ETL pipeline to automate end-to-end data acquisition, integrating DeepSeek R1 from Ollama for local LLM processing, browser automation tools, geocoding services, and PostgreSQL—laying the foundation for the company’s strategic AI roadmap in geospatial intelligence.",
+        "Collaborated cross-functionally with engineers and domain experts to optimize performance, scalability, and maintainability of the application, delivering actionable insights for real estate planning."
+      ]
+    },
     {
       title: "Data Analytics Consultant (with Artificial Intelligence specialization)",
       company: "AECOM",
-      location: "London, UK",
-      period: "January 2023 - Present",
+      location: "London, United Kingdom",
+      period: "January 2023 - October 2024",
       description: [
         "Led the full-stack development of an AI solution, 'News Scraping App', for a prestigious client. Integrated a bespoke chatbot, external search engine, and advanced RAG technique, alongside an intuitive user interface and proprietary knowledge base. Utilised Azure Web App service and a reputable vector database for efficient data retrieval",
         "Implemented Monte Carlo simulation for sensitivity analysis over a hundred cost models, evaluating the impact of financial uncertainty for a £1 billion business plan",
@@ -208,20 +223,25 @@ const PortfolioPage = () => {
       {/* Navigation */}
       <nav className="fixed w-full z-20 border-b border-gray-800 backdrop-blur-sm bg-black/30">
         <div className="container mx-auto px-4 py-4 relative flex items-center justify-between">
-          {/* Left: Brand */}
+          {/* Left: Brand (and AI Chatbot on mobile) */}
           <div className="flex items-center gap-2">
-            <div className="relative">
-              <Sparkles className="h-6 w-6 text-cyan-400" />
-              <div className="absolute inset-0 animate-ping opacity-50">
-                <Sparkles className="h-6 w-6 text-cyan-400" />
-              </div>
-            </div>
-            <span className="text-xl font-bold bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 text-transparent bg-clip-text cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+            <span
+              className="text-xl font-bold bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 text-transparent bg-clip-text cursor-pointer"
+              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            >
               Daniel Wong
             </span>
+            {/* Show AI Chatbot button inline on mobile for compactness */}
+            <Link
+              href="/chat"
+              className="ml-2 flex md:hidden items-center gap-1 rounded-full px-3 py-1.5 text-xs font-semibold text-white bg-white/10 hover:bg-white/15 transition-all duration-300 shadow-none"
+              style={{ boxShadow: 'none' }}
+            >
+              <span className="relative z-10">AI Chatbot</span>
+            </Link>
           </div>
 
-          {/* Center: Nav links */}
+          {/* Center: Nav links (hidden on mobile) */}
           <div className="absolute left-1/2 -translate-x-1/2 hidden md:flex items-center gap-8">
             {['about', 'experience', 'skills', 'projects', 'contact'].map((section) => (
               <button
@@ -235,12 +255,12 @@ const PortfolioPage = () => {
             ))}
           </div>
 
-          {/* Right: CTAs */}
+          {/* Right: CTAs (hidden AI Chatbot on mobile, show on desktop) */}
           <div className="flex items-center gap-3">
-            {/* Chat with Me button */}
+            {/* AI Chatbot button only on md+ screens */}
             <Link
               href="/chat"
-              className="group relative overflow-hidden rounded-full px-5 py-2 text-sm font-semibold text-white shadow-lg backdrop-blur-xl transition-all duration-300 bg-white/10 hover:bg-white/15 hover:shadow-[0_8px_24px_rgba(59,130,246,0.25)]"
+              className="group relative overflow-hidden rounded-full px-5 py-2 text-sm font-semibold text-white shadow-lg backdrop-blur-xl transition-all duration-300 bg-white/10 hover:bg-white/15 hover:shadow-[0_8px_24px_rgba(59,130,246,0.25)] hidden md:inline-flex"
             >
               {/* Glass highlight */}
               <span className="pointer-events-none absolute inset-0 rounded-full bg-gradient-to-b from-white/30 via-white/10 to-transparent opacity-70" />
