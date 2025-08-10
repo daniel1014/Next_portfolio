@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ArrowRight, X, Mail, User, MessageSquare } from "lucide-react";
 
 interface FormState {
@@ -14,6 +14,17 @@ export default function ContactFormDialog() {
   const [form, setForm] = useState<FormState>({ name: "", email: "", message: "" });
   const [errors, setErrors] = useState<Partial<FormState>>({});
   const [submitting, setSubmitting] = useState(false);
+
+  // Prevent background scroll when dialog is open (mobile-first usability)
+  useEffect(() => {
+    if (open) {
+      const previousOverflow = document.body.style.overflow;
+      document.body.style.overflow = "hidden";
+      return () => {
+        document.body.style.overflow = previousOverflow;
+      };
+    }
+  }, [open]);
 
   const validate = (): boolean => {
     const newErrors: Partial<FormState> = {};
@@ -68,9 +79,17 @@ export default function ContactFormDialog() {
 
       {/* Dialog */}
       {open && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" onClick={() => setOpen(false)} />
-          <div className="relative z-10 w-full max-w-md rounded-xl border border-white/10 bg-gray-900 p-6 shadow-2xl">
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="contact-dialog-title"
+          className="fixed inset-0 z-50 grid min-h-[100svh] place-items-center p-4"
+        >
+          <div
+            className="absolute inset-0 bg-black/70 backdrop-blur-sm"
+            onClick={() => setOpen(false)}
+          />
+          <div className="relative z-10 w-full max-w-md mx-auto rounded-xl border border-white/10 bg-gray-900 p-6 shadow-2xl max-h-[85svh] overflow-y-auto">
             <button
               aria-label="Close"
               className="absolute right-3 top-3 rounded p-1 text-gray-400 hover:text-white"
@@ -78,7 +97,7 @@ export default function ContactFormDialog() {
             >
               <X className="h-5 w-5" />
             </button>
-            <h2 className="mb-1 text-2xl font-bold text-white">Contact Me</h2>
+            <h2 id="contact-dialog-title" className="mb-1 text-2xl font-bold text-white">Contact Me</h2>
             <p className="mb-6 text-sm text-gray-400">
               I typically respond quickly, so feel free to reach out anytime!
             </p>
@@ -94,6 +113,7 @@ export default function ContactFormDialog() {
                     onChange={(e) => setForm({ ...form, name: e.target.value })}
                     className="w-full bg-transparent text-gray-200 outline-none placeholder:text-gray-500"
                     placeholder="Name"
+                    autoFocus
                   />
                 </div>
                 {errors.name && <p className="mt-1 text-xs text-red-400">{errors.name}</p>}

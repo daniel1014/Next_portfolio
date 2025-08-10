@@ -17,17 +17,17 @@ interface TimelineExperienceProps {
 
 const TimelineExperience: React.FC<TimelineExperienceProps> = ({ experiences }) => {
   return (
-    <div className="relative">
+    <div className="relative px-4 sm:px-0">
       {/* Timeline line */}
       <motion.div
         initial={{ height: 0 }}
         whileInView={{ height: "100%" }}
         viewport={{ once: true }}
         transition={{ duration: 2, ease: "easeOut" }}
-        className="absolute left-8 top-0 w-0.5 bg-gradient-to-b from-blue-500 to-purple-500"
+        className="absolute left-4 sm:left-8 top-0 w-0.5 bg-gradient-to-b from-blue-500 to-purple-500"
       />
       
-      <div className="space-y-12">
+      <div className="space-y-8 sm:space-y-12">
         {experiences.map((exp, index) => (
           <motion.div
             key={index}
@@ -52,23 +52,23 @@ const TimelineExperience: React.FC<TimelineExperienceProps> = ({ experiences }) 
                 type: "spring",
                 stiffness: 200
               }}
-              className="absolute left-6 w-4 h-4 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full border-4 border-gray-900 z-10"
+              className="absolute left-2 sm:left-6 w-3 h-3 sm:w-4 sm:h-4 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full border-2 sm:border-4 border-gray-900 z-10"
             />
             
             {/* Experience card */}
             <motion.div
               whileHover={{ scale: 1.02, y: -5 }}
-              className="ml-20 bg-card-gradient backdrop-blur-lg border border-white/10 rounded-2xl shadow-2xl p-8 w-full hover:shadow-blue-500/20 transition-all duration-500"
+              className="ml-8 sm:ml-20 bg-card-gradient backdrop-blur-lg border border-white/10 rounded-xl sm:rounded-2xl shadow-2xl p-4 sm:p-8 w-full hover:shadow-blue-500/20 transition-all duration-500"
             >
-              <div className="flex items-center gap-3 mb-4">
-                <div className="p-2 bg-blue-500/20 rounded-lg">
-                  <Briefcase className="w-5 h-5 text-blue-400" />
+              <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
+                <div className="p-1.5 sm:p-2 bg-blue-500/20 rounded-lg">
+                  <Briefcase className="w-4 h-4 sm:w-5 sm:h-5 text-blue-400" />
                 </div>
                 <motion.h3 
                   initial={{ opacity: 0 }}
                   whileInView={{ opacity: 1 }}
                   transition={{ delay: index * 0.3 + 0.7, duration: 0.5 }}
-                  className="text-2xl font-semibold text-blue-400"
+                  className="text-lg sm:text-xl md:text-2xl font-semibold text-blue-400"
                 >
                   {exp.title}
                 </motion.h3>
@@ -78,18 +78,18 @@ const TimelineExperience: React.FC<TimelineExperienceProps> = ({ experiences }) 
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
                 transition={{ delay: index * 0.3 + 0.8, duration: 0.5 }}
-                className="flex flex-wrap gap-4 mb-6 text-gray-400"
+                className="flex flex-col sm:flex-row sm:flex-wrap gap-2 sm:gap-4 mb-4 sm:mb-6 text-gray-400 text-sm sm:text-base"
               >
                 <div className="flex items-center gap-2">
-                  <Briefcase className="w-4 h-4" />
+                  <Briefcase className="w-3 h-3 sm:w-4 sm:h-4" />
                   <span>{exp.company}</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <MapPin className="w-4 h-4" />
+                  <MapPin className="w-3 h-3 sm:w-4 sm:h-4" />
                   <span>{exp.location}</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Calendar className="w-4 h-4" />
+                  <Calendar className="w-3 h-3 sm:w-4 sm:h-4" />
                   <span>{exp.period}</span>
                 </div>
               </motion.div>
@@ -98,7 +98,7 @@ const TimelineExperience: React.FC<TimelineExperienceProps> = ({ experiences }) 
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
                 transition={{ delay: index * 0.3 + 1, duration: 0.5 }}
-                className="space-y-3"
+                className="space-y-2 sm:space-y-3"
               >
                 {exp.description.map((item, itemIndex) => (
                   <motion.li 
@@ -109,10 +109,10 @@ const TimelineExperience: React.FC<TimelineExperienceProps> = ({ experiences }) 
                       delay: index * 0.3 + 1.1 + itemIndex * 0.1, 
                       duration: 0.4 
                     }}
-                    className="flex items-start gap-3 text-gray-300"
+                    className="flex items-start gap-2 sm:gap-3 text-gray-300 text-sm sm:text-base leading-relaxed"
                   >
-                    <div className="w-2 h-2 bg-blue-400 rounded-full mt-2 flex-shrink-0" />
-                    <span className="leading-relaxed">{item}</span>
+                    <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-blue-400 rounded-full mt-1.5 sm:mt-2 flex-shrink-0" />
+                    <span>{item}</span>
                   </motion.li>
                 ))}
               </motion.ul>
