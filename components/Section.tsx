@@ -15,8 +15,8 @@ const Section: React.FC<{ title: string; children: React.ReactNode; id: string }
   };
 
   return (
-    <div className="mb-32" id={id}>
-      <AnimatedSection className="text-center mb-16">
+    <div className="mb-16" id={id}>
+      <AnimatedSection className="text-center mb-8">
         <motion.h2 
           initial={{ opacity: 0, y: -30 }}
           whileInView={{ opacity: 1, y: 0 }}

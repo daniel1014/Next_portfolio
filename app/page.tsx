@@ -1,6 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Mail, Phone, Github, Linkedin, Sparkles } from 'lucide-react';
 import { FaLinkedin } from 'react-icons/fa';
 import SkillCategory from '@/components/SkillCategory';
@@ -29,7 +30,14 @@ const PortfolioPage = () => {
     }
   };
 
-  const projectImages_1 = [
+  const formatDate = (isoDate: string) =>
+    new Date(isoDate).toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
+    });
+
+  const projectImages_news_scraping = [
     '/photos/NISA_1.jpg',
     '/photos/NISA_2.jpg',
     '/photos/NISA_3.jpg',
@@ -37,18 +45,30 @@ const PortfolioPage = () => {
     '/photos/NISA_5.jpg',
   ];
 
-  const projectImages_2 = [
+  const projectImages_chatbot_cv = [
     "/photos/chatbot_cv_1.jpg", 
     "/photos/chatbot_cv_2.jpg", 
     "/photos/chatbot_cv_3.jpg",
     "/photos/chatbot_cv_4.jpg",
   ];
 
-  const projectImages_3 = [
+  const projectImages_trilodocs = [
     "/photos/trilodocs_1.png",
     "/photos/trilodocs_2.png",
     "/photos/trilodocs_3.png",
     "/photos/trilodocs_4.png",
+  ];
+
+  const projectImages_planning_context_report = [
+    "/photos/planning_context_report_1.png",
+    "/photos/planning_context_report_2.png",
+    "/photos/planning_context_report_3.png",
+    "/photos/planning_context_report_4.png",
+  ];
+
+  const projectImages_trustvibe = [
+    "/photos/trustvibe_1.png",
+    "/photos/trustvibe_2.png",
   ];
 
   // Added PlanningHub startup experience to reflect recent, relevant software engineering work in an early-stage AI SaaS environment.
@@ -96,7 +116,7 @@ const PortfolioPage = () => {
     {
       title: "TrilloDocs - AI Document Processing Platform",
       period: "May 2025 - July 2025",
-      images: projectImages_3,
+      images: projectImages_trilodocs,
       frontDescription: "Turns PDF/DOCX into clean, structured JSON with one‑click downloads and local history. Built for speed, reliability, and clear results.",
       backDetails: [
         {
@@ -122,7 +142,7 @@ const PortfolioPage = () => {
     {
       title: "News Scraping Web App with LLM",
       period: "December 2023 - December 2024",
-      images: projectImages_1,
+      images: projectImages_news_scraping,
       frontDescription: "LLM-powered news intelligence solution: scrape real-time news sources, summarise and chat with instant knowledge, upload lengthy PDF documents and chatbot is yours to keep.",
       backDetails: [
         {
@@ -131,7 +151,7 @@ const PortfolioPage = () => {
         },
         {
           title: "Cloud Deployment & Scale",
-          description: "Deployed to Azure and tuned for concurrent users and predictable costs. Explored Azure AI Search for efficient search and retrieval."
+          description: "Deployed to Azure and tuned for concurrent users and predictable costs."
         },
         {
           title: "Intuitive Dashboard & Visualization",  
@@ -146,7 +166,7 @@ const PortfolioPage = () => {
     {
       title: "Team Internal Tool - CV Chatbot",
       period: "July 2024 - October 2024",
-      images: projectImages_2,
+      images: projectImages_chatbot_cv,
       frontDescription: "Private LLM assistant that answers questions about team skills, roles, and projects with high precision.",
       backDetails: [
         {
@@ -155,60 +175,71 @@ const PortfolioPage = () => {
         },
         {
           title: "Systems integration",
-          description: "Vector database + SharePoint connectors to keep knowledge up to date."
+          description: "Vector database (Qdrant) + SharePoint connectors to keep knowledge up to date. Integrated Azure AI Search for efficient search and retrieval."
         },
         {
           title: "Focused UX",
           description: "Clean chat UI with auth and scoped search for faster retrieval."
         }
       ],
-      technologies: ["Python", "LLM", "SharePoint", "Vector Database", "UI/UX"],
+      technologies: ["Python", "LLM", "SharePoint", "Vector Database", "Qdrant", "Azure AI Search", "UI/UX"],
       links: {
-        demo: "https://daniel-wong-portfolio.vercel.app/chat"
+        github: "https://github.com/daniel1014/chatbot_CV"
       }
     },
     {
-      title: "Planning Context Report Automation",
-      period: "2024",
-      images: projectImages_1, // placeholder images
-      frontDescription: "Automates planning context reports by searching, extracting, and summarising public documents into structured sections.",
+      title: "Planning Context Report - AI-Powered SaaS Platform",
+      period: "2024-2025",
+      images: projectImages_planning_context_report,
+      frontDescription: "AI platform reducing planning report generation from 20-40 hours to under 5 minutes, processing 10,000+ datasets across UK cities.",
       backDetails: [
         {
-          title: "Data ingestion",
-          description: "Scrapes PDFs/HTML and normalises geospatial and policy data for analysis."
+          title: "Performance optimization",
+          description: "Achieved 99.6% reduction in report generation time through parallel data fetching and LLM optimization."
         },
         {
-          title: "LLM synthesis",
-          description: "RAG pipeline produces concise, cited summaries and recommendations."
+          title: "Data processing",
+          description: "Integrated heterogeneous sources (APIs, MSSQL, shapefiles) using PostGIS and GDAL for spatial operations."
         },
         {
-          title: "Delivery",
-          description: "Exports structured content ready for client formatting and review."
+          title: "Architecture",
+          description: "Docker microservices with React 18/TypeScript frontend, Python AsyncIO backend, and LangGraph orchestration."
         }
       ],
-      technologies: ["Python", "LangChain", "Streamlit", "Azure", "Vector Database"]
+      technologies: ["React 18", "TypeScript", "Python", "AsyncIO", "LangGraph", "Ollama", "PostGIS", "Docker", "Material-UI"]
     },
     {
-      title: "Trustvibe - Reputation Intelligence Prototype",
+      title: "TrustVibe - Christian Community Platform",
       period: "2025",
-      images: projectImages_2, // placeholder images
-      frontDescription: "Prototype that analyses reviews and social signals to surface trust insights and risk flags.",
+      images: projectImages_trustvibe,
+      frontDescription: "Cross-platform mobile app with real-time chat, social features, and GraphQL API serving faith communities.",
       backDetails: [
         {
-          title: "Signal fusion",
-          description: "Combines keyword, sentiment, and entity analysis with embedding-based clustering."
+          title: "Cross-platform development",
+          description: "React Native with Expo for iOS/Android compatibility and Firebase real-time listeners."
         },
         {
-          title: "Explainable outputs",
-          description: "Evidence-linked summaries and scorecards for transparent decisions."
+          title: "Backend architecture",
+          description: "GraphQL API layer with Firestore database and authentication system."
         },
         {
-          title: "Scalable design",
-          description: "Next.js frontend with FastAPI services and vector search for low-latency queries."
+          title: "Marketing platform",
+          description: "Next.js landing page with TailwindCSS for responsive design and SEO optimization."
         }
       ],
-      technologies: ["Next.js", "TypeScript", "Python", "FastAPI", "Pinecone", "Tailwind CSS"]
+      technologies: ["React Native", "Expo", "Firebase", "GraphQL", "Next.js", "TypeScript", "TailwindCSS"]
     }
+  ];
+
+  const blogPosts = [
+    {
+      title: 'Mastering Chess: The Balance Between Strategy and Tactics',
+      summary:
+        'A deep dive into the balance between strategy and tactics in chess and how improving both can enhance your game.',
+      date: '2024-01-22',
+      cover: '/photos/contextReport_1.png',
+      href: '#',
+    },
   ];
 
   return (
@@ -438,6 +469,46 @@ const PortfolioPage = () => {
             <div className="relative z-0 grid gap-16 max-w-4xl mx-auto">
               {projects.map((project, index) => (
                 <FlipCard key={index} project={project} />
+              ))}
+            </div>
+          </div>
+        </Section>
+
+        <AuroraDivider />
+
+        {/* Blog Section */}
+        <Section title="Recent Blog" id="blog">
+          <div className="relative">
+            <div className="absolute inset-0 bg-project-gradient opacity-5 rounded-3xl pointer-events-none" />
+            <div className="relative z-0 grid gap-8 max-w-4xl mx-auto">
+              {blogPosts.map((post) => (
+                <article
+                  key={post.title}
+                  className="group bg-card-gradient backdrop-blur-lg border border-white/10 rounded-2xl shadow-2xl p-6 md:p-8"
+                >
+                  <Link href={post.href} className="block focus:outline-none focus:ring-2 focus:ring-cyan-400 rounded-xl">
+                    <h3 className="text-2xl md:text-3xl font-bold text-white leading-snug">
+                      {post.title}
+                    </h3>
+                    <div className="mt-5 overflow-hidden rounded-xl border border-white/10">
+                      <Image
+                        src={post.cover}
+                        alt={post.title}
+                        width={1200}
+                        height={630}
+                        className="w-full h-56 md:h-72 object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+                        priority
+                      />
+                    </div>
+                    <p className="mt-6 text-gray-300">
+                      {post.summary}
+                    </p>
+                    <div className="mt-6 flex items-center justify-between text-sm text-gray-400">
+                      <span>Published on {formatDate(post.date)}</span>
+                      <Sparkles className="h-5 w-5 text-white/60" />
+                    </div>
+                  </Link>
+                </article>
               ))}
             </div>
           </div>
