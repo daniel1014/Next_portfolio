@@ -12,7 +12,7 @@ import MagicButton from '@/components/MagicButton';
 import TimelineExperience from '@/components/TimelineExperience';
 import FlipCard from '@/components/FlipCard';
 import AnimatedCounter from '@/components/AnimatedCounter';
-import { Trophy, Users, Calendar, Code } from 'lucide-react';
+import { Trophy, Users, Calendar, Code, ExternalLink } from 'lucide-react';
 import AuroraDivider from '@/components/AuroraDivider';
 import ParticleBackground from '@/components/ParticleBackground';
 import ContactFormDialog from '@/components/ContactFormDialog';
@@ -114,6 +114,30 @@ const PortfolioPage = () => {
 
   const projects = [
     {
+      title: "News Scraping Web App with LLM",
+      period: "December 2023 - December 2024",
+      images: projectImages_news_scraping,
+      frontDescription: "LLM-powered news intelligence solution: scrape real-time news sources, summarise and chat with instant knowledge, upload lengthy PDF documents and chatbot is yours to keep.",
+      backDetails: [
+        {
+          title: "Advanced RAG Architecture",
+          description: "Implemented a hybrid search approach combining keyword (BM25) and vector (semantic) retrieval, optimized chunking strategies, and extraction methods. Adopted an open-source embedding model after evaluating multiple RAG setups. Integrated Cohere Reranker to further boost retrieval accuracy, balancing latency and quality."
+        },
+        {
+          title: "Cloud Deployment & Scale",
+          description: "Deployed to Azure and tuned for concurrent users and predictable costs."
+        },
+        {
+          title: "Intuitive Dashboard & Visualization",  
+          description: "Interactive dashboard for real-time news monitoring with sentiment analysis, topic modeling, and quick summary."
+        }
+      ],
+      technologies: ["Python", "Azure", "LangChain", "Streamlit", "Vector Database", "BM25", "Cohere Reranker", "Open-source Embedding Model"],
+      links: {
+        github: "https://github.com/daniel1014/Next_portfolio"
+      }
+    },
+    {
       title: "TrilloDocs - AI Document Processing Platform",
       period: "May 2025 - July 2025",
       images: projectImages_trilodocs,
@@ -137,30 +161,6 @@ const PortfolioPage = () => {
         github: "https://github.com/daniel1014/Trilodocs",
         demo: "https://trilodocs.vercel.app/",
         sampleData: "/assets/demo_data.docx"
-      }
-    },
-    {
-      title: "News Scraping Web App with LLM",
-      period: "December 2023 - December 2024",
-      images: projectImages_news_scraping,
-      frontDescription: "LLM-powered news intelligence solution: scrape real-time news sources, summarise and chat with instant knowledge, upload lengthy PDF documents and chatbot is yours to keep.",
-      backDetails: [
-        {
-          title: "Advanced RAG Architecture",
-          description: "Implemented a hybrid search approach combining keyword (BM25) and vector (semantic) retrieval, optimized chunking strategies, and extraction methods. Adopted an open-source embedding model after evaluating multiple RAG setups. Integrated Cohere Reranker to further boost retrieval accuracy, balancing latency and quality."
-        },
-        {
-          title: "Cloud Deployment & Scale",
-          description: "Deployed to Azure and tuned for concurrent users and predictable costs."
-        },
-        {
-          title: "Intuitive Dashboard & Visualization",  
-          description: "Interactive dashboard for real-time news monitoring with sentiment analysis, topic modeling, and quick summary."
-        }
-      ],
-      technologies: ["Python", "Azure", "LangChain", "Streamlit", "Vector Database", "BM25", "Cohere Reranker", "Open-source Embedding Model"],
-      links: {
-        github: "https://github.com/daniel1014/Next_portfolio"
       }
     },
     {
@@ -189,7 +189,7 @@ const PortfolioPage = () => {
     },
     {
       title: "Planning Context Report - AI-Powered SaaS Platform",
-      period: "2024-2025",
+      period: "January 2025 - March 2025",
       images: projectImages_planning_context_report,
       frontDescription: "AI platform reducing planning report generation from 20-40 hours to under 5 minutes, processing 10,000+ datasets across UK cities.",
       backDetails: [
@@ -210,7 +210,7 @@ const PortfolioPage = () => {
     },
     {
       title: "TrustVibe - Christian Community Platform",
-      period: "2025",
+      period: "May 2025 - present (ongoing side project)",
       images: projectImages_trustvibe,
       frontDescription: "Cross-platform mobile app with real-time chat, social features, and GraphQL API serving faith communities.",
       backDetails: [
@@ -227,7 +227,10 @@ const PortfolioPage = () => {
           description: "Next.js landing page with TailwindCSS for responsive design and SEO optimization."
         }
       ],
-      technologies: ["React Native", "Expo", "Firebase", "GraphQL", "Next.js", "TypeScript", "TailwindCSS"]
+      technologies: ["React Native", "Expo", "Firebase", "GraphQL", "Next.js", "TypeScript", "TailwindCSS"],
+      links: {
+        demo: "https://trustvibe.vercel.app",
+      }
     }
   ];
 
@@ -374,7 +377,7 @@ const PortfolioPage = () => {
             <AnimatedCounter 
               end={6} 
               suffix="+" 
-              label="Projects" 
+              label="Major Projects" 
               icon={<Code className="w-6 h-6 text-blue-400" />}
             />
             <AnimatedCounter 
@@ -487,7 +490,7 @@ const PortfolioPage = () => {
                   className="group bg-card-gradient backdrop-blur-lg border border-white/10 rounded-2xl shadow-2xl p-6 md:p-8"
                 >
                   <Link href={post.href} className="block focus:outline-none focus:ring-2 focus:ring-cyan-400 rounded-xl">
-                    <h3 className="text-2xl md:text-3xl font-bold text-white leading-snug">
+                    <h3 className="text-xl sm:text-2xl font-semibold bg-gradient-to-r from-cyan-300 to-purple-300 bg-clip-text text-transparent">
                       {post.title}
                     </h3>
                     <div className="mt-5 overflow-hidden rounded-xl border border-white/10">
@@ -505,7 +508,7 @@ const PortfolioPage = () => {
                     </p>
                     <div className="mt-6 flex items-center justify-between text-sm text-gray-400">
                       <span>Published on {formatDate(post.date)}</span>
-                      <Sparkles className="h-5 w-5 text-white/60" />
+                      <ExternalLink className="w-4 h-4 sm:w-5 sm:h-5 text-white/60" />
                     </div>
                   </Link>
                 </article>

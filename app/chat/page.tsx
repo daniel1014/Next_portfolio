@@ -6,6 +6,7 @@ import { Send, Sparkles, MessageCircle, Loader2, Bug, Bot, User } from 'lucide-r
 import { FaGithub, FaLinkedin } from 'react-icons/fa';
 import MarkdownRenderer from '@/components/MarkdownRenderer';
 import ParticleBackground from '@/components/ParticleBackground';
+import ContactFormDialog from '@/components/ContactFormDialog';
 
 interface Message {
   text: string;
@@ -303,8 +304,9 @@ const ChatPage = () => {
             </svg>
             Daniel Wong
           </Link>
-          {/* Right: Socials */}
-          <div className="flex items-center gap-4">
+          {/* Right: Actions */}
+          <div className="flex items-center gap-2 sm:gap-4">
+            <ContactFormDialog />
             <a
               href="https://github.com/daniel1014/Next_portfolio"
               target="_blank"
