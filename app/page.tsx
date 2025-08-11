@@ -233,12 +233,12 @@ const PortfolioPage = () => {
 
   const blogPosts = [
     {
-      title: 'Mastering Chess: The Balance Between Strategy and Tactics',
+      title: 'EasyApply - Browser Automation Agent',
       summary:
-        'A deep dive into the balance between strategy and tactics in chess and how improving both can enhance your game.',
-      date: '2024-01-22',
-      cover: '/photos/contextReport_1.png',
-      href: '#',
+        'AI-powered job application automation system using browser agents. Automates form filling, cover letter generation, and application submission while handling dynamic web interfaces and CAPTCHAs.',
+      date: '2025-06-20',
+      cover: '/photos/easyapply.png',
+      href: 'https://www.linkedin.com/posts/chuenlik-daniel-wong_ai-llmagents-agenticai-activity-7330590814475022337-qyoA?utm_source=share&utm_medium=member_desktop&rcm=ACoAADSXfzIBieynxSQImsUXsnSZC5S60cYwZeg',
     },
   ];
 
