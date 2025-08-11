@@ -274,7 +274,7 @@ const PortfolioPage = () => {
 
           {/* Center: Nav links (hidden on mobile) */}
           <div className="absolute left-1/2 -translate-x-1/2 hidden md:flex items-center gap-8">
-            {['about', 'experience', 'skills', 'projects', 'contact'].map((section) => (
+            {['about', 'experience', 'skills', 'projects'].map((section) => (
               <button
                 key={section}
                 onClick={() => scrollTo(section)}
@@ -372,9 +372,9 @@ const PortfolioPage = () => {
               icon={<Calendar className="w-6 h-6 text-blue-400" />}
             />
             <AnimatedCounter 
-              end={3} 
+              end={6} 
               suffix="+" 
-              label="Major Projects" 
+              label="Projects" 
               icon={<Code className="w-6 h-6 text-blue-400" />}
             />
             <AnimatedCounter 
@@ -510,42 +510,6 @@ const PortfolioPage = () => {
                   </Link>
                 </article>
               ))}
-            </div>
-          </div>
-        </Section>
-
-        {/* Contact Section */}     
-        <Section title="Contact" id="contact">
-          {/* Full-viewport center wrapper (mobile-first) */}
-          <div className="md:min-h-0 min-h-[100svh] grid place-items-center">
-            <div className="bg-card-gradient backdrop-blur-lg border border-white/10 rounded-2xl shadow-2xl p-8 hover:shadow-blue-500/20 hover:scale-[1.02] transition-all duration-500 w-full">
-            <div className="flex flex-col md:flex-row justify-between">
-              <div className="mb-8 md:mb-0">
-                <p className="flex items-center mb-4 text-gray-300"><Phone className="mr-3 text-blue-400" /> +44 7432 336788</p>
-                <p className="flex items-center mb-4 text-gray-300">
-                  <Mail className="mr-3 text-blue-400" /> 
-                  <a href="mailto:chuenlik@hotmail.com" className="text-blue-400 hover:text-blue-300 transition duration-300">chuenlik@hotmail.com</a>
-                </p>
-                <p className="flex items-center mb-4 text-gray-300">
-                  <Linkedin className="mr-3 text-blue-400" />
-                  <a href="https://www.linkedin.com/in/chuenlik-daniel-wong/" className="text-blue-400 hover:text-blue-300 transition duration-300">LinkedIn: Chuen Lik Daniel Wong</a>
-                </p>
-                <p className="flex items-center mb-4 text-gray-300">
-                  <Github className="mr-3 text-blue-400" />
-                  <a href="https://github.com/daniel1014" className="text-blue-400 hover:text-blue-300 transition duration-300">GitHub: github.com/daniel1014</a>
-                </p>
-              </div>
-              <div className="w-full md:w-1/2">
-                <form className="space-y-6">
-                  <input className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:border-blue-400 text-gray-300" type="text" placeholder="Your Name" />
-                  <input className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:border-blue-400 text-gray-300" type="email" placeholder="Your Email" />
-                  <textarea className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:border-blue-400 text-gray-300" rows={4} placeholder="Your Message"></textarea>
-                  <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-lg transition duration-300 shadow-lg">
-                    Send Message
-                  </button>
-                </form>
-              </div>
-            </div>
             </div>
           </div>
         </Section>
