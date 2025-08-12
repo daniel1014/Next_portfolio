@@ -1,63 +1,37 @@
-'use client';
-
-import '../sentry.client.config';
 import './globals.css'
 import { Inter } from 'next/font/google'
-import { useEffect } from 'react'
-import Script from 'next/script'
+import type { Metadata, Viewport } from 'next'
+import ClientAnalytics from '../components/ClientAnalytics'
 
 const inter = Inter({ subsets: ['latin'] })
-const measurementId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID; // environment variable in Vercel production environment
+
+export const metadata: Metadata = {
+  title: 'Daniel Wong - Portfolio',
+  description: 'AI Engineer | Data Scientist | Innovation Enthusiast',
+  manifest: '/manifest.json',
+  icons: {
+    icon: [
+      { url: '/favicon.ico' },
+    ],
+    apple: [{ url: '/apple-icon.png', sizes: '180x180' }],
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: '#0ea5e9',
+};
 
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
-  useEffect(() => {
-    const handleRouteChange = (url: string) => {
-      window.gtag('config', measurementId, {
-        page_path: url,
-      });
-    };
-
-    // Listen for route changes
-    const handleRouteChangeComplete = () => {
-      const url = window.location.pathname; // Get the current URL
-      handleRouteChange(url);
-    };
-
-    // Add event listener for route changes
-    window.addEventListener('popstate', handleRouteChangeComplete);
-    return () => {
-      window.removeEventListener('popstate', handleRouteChangeComplete);
-    };
-  }, []);
-
   return (
     <html lang="en">
-      <head>
-        <Script
-          id="google-analytics"
-          strategy="afterInteractive"
-          src={`https://www.googletagmanager.com/gtag/js?id=${measurementId}`}
-        />
-        <Script
-          id="google-analytics-init"
-          strategy="afterInteractive"
-          dangerouslySetInnerHTML={{
-            __html: `
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', '${measurementId}', {
-                page_path: window.location.pathname,
-              });
-            `,
-          }}
-        />
-      </head>
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        {children}
+        <ClientAnalytics />
+      </body>
     </html>
   );
 }
