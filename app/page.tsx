@@ -17,6 +17,7 @@ import AuroraDivider from '@/components/AuroraDivider';
 import ParticleBackground from '@/components/ParticleBackground';
 import ContactFormDialog from '@/components/ContactFormDialog';
 import FeedbackButton from '@/components/FeedbackButton';
+import { TextGradientScroll } from '@/components/ui/text-gradient-scroll';
 
 
 const PortfolioPage = () => {
@@ -349,21 +350,41 @@ const PortfolioPage = () => {
       <main className="container mx-auto px-6 py-32 max-w-6xl relative z-10" id="about">
         <Section title="About Me" id="about_me">
           <div className="bg-card-gradient backdrop-blur-lg border border-white/10 rounded-2xl shadow-2xl p-8 hover:shadow-blue-500/20 hover:scale-[1.02] transition-all duration-500">
-            <p className="text-base sm:text-lg text-gray-200 mb-8 leading-relaxed font-light">
-              Curiosity has always driven my journey as a developer.
-            </p>
-            <p className="text-base sm:text-lg text-gray-200 mb-8 leading-relaxed font-light">
-              I began my career in a multinational energy company, where I witnessed firsthand how technology transforms industries from the inside out. This experience inspired me to pivot into tech—teaching myself to code and later pursuing formal training in computing and AI.
-            </p>
-            <p className="text-base sm:text-lg text-gray-200 mb-8 leading-relaxed font-light">
-              In 2023, after the release of ChatGPT, I built an AI-powered news scraping app. It quickly evolved into a full-stack system with LLMs (RAG), semantic search, PDF parsing, and sentiment analysis—all deployed on the cloud.
-            </p>
-            <p className="text-base sm:text-lg text-gray-200 mb-8 leading-relaxed font-light">
-              That project sharpened my skills and ignited a passion for building scalable, data-driven applications that don’t just work, but think and adapt.
-            </p>
-            <p className="text-base sm:text-lg text-gray-200 leading-relaxed font-light">
-              Today, I focus on delivering intelligent solutions that bring real impact to users and businesses alike.
-            </p>
+            {/* 
+              Hohoho
+              Combine all paragraphs into a single TextGradientScroll to provide a unified, consistent animated text reveal effect.
+              This approach reduces repetition, improves maintainability, and ensures a modern, minimalistic design.
+              If you want to separate paragraphs visually, use "\n\n" between them.
+            */}
+            <div className="mb-2">
+              <TextGradientScroll
+                  text="Curiosity has always driven my journey as a Developer."
+                  type="word"
+                  textOpacity="medium"
+                  offset={["start 98%", "end 95%"]}
+                  className="text-lg sm:text-xl font-bold mb-8 tracking-wide"
+                />
+              <TextGradientScroll
+                text={`I began my career in a multinational energy company, where I witnessed firsthand how technology transforms industries from the inside out. This experience inspired me to pivot into tech—teaching myself to code and later pursuing formal training in computing and AI.
+
+In 2023, after the release of ChatGPT, I built an AI-powered news scraping app. It quickly evolved into a full-stack system with LLMs (RAG), semantic search, PDF parsing, and sentiment analysis—all deployed on the cloud.
+
+That project sharpened my skills and ignited a passion for building scalable, data-driven applications that don’t just work, but think and adapt.
+
+Today, I focus on building intelligent, data‑driven applications — from RAG pipelines to geospatial AI — that deliver fast, reliable outcomes.`}
+                type="word"
+                textOpacity="soft"
+                offset={["start 95%", "end 75%"]}
+                className="text-base sm:text-lg text-gray-200 leading-relaxed font-light"
+              />
+              <TextGradientScroll
+                text="Today, I focus on building intelligent, data‑driven applications — from RAG pipelines to geospatial AI — that deliver fast, reliable outcomes."
+                type="word"
+                textOpacity="medium"
+                offset={["start 80%", "end 70%"]}
+                className="text-lg sm:text-xl font-bold mt-8 tracking-wide"
+              />
+            </div>
           </div>
           
           {/* Achievement Counters */}
