@@ -16,6 +16,22 @@ interface TimelineExperienceProps {
 }
 
 const TimelineExperience: React.FC<TimelineExperienceProps> = ({ experiences }) => {
+  // Animation timing constants for easy adjustment and DRYness
+  const timelineLineDuration = 1.2; // was 2
+  const cardDuration = 0.6; // was 0.8
+  const cardDelayStep = 0.22; // was 0.3
+  const dotDuration = 0.35; // was 0.5
+  const dotDelayOffset = 0.35; // was 0.5
+  const titleDelayOffset = 0.5; // was 0.7
+  const titleDuration = 0.35; // was 0.5
+  const metaDelayOffset = 0.58; // was 0.8
+  const metaDuration = 0.35; // was 0.5
+  const descDelayOffset = 0.7; // was 1
+  const descDuration = 0.35; // was 0.5
+  const liDelayOffset = 0.8; // was 1.1
+  const liDuration = 0.28; // was 0.4
+  const liStep = 0.07; // was 0.1
+
   return (
     <div className="relative px-4 sm:px-0">
       {/* Timeline line */}
@@ -23,7 +39,7 @@ const TimelineExperience: React.FC<TimelineExperienceProps> = ({ experiences }) 
         initial={{ height: 0 }}
         whileInView={{ height: "100%" }}
         viewport={{ once: true }}
-        transition={{ duration: 2, ease: "easeOut" }}
+        transition={{ duration: timelineLineDuration, ease: "easeOut" }}
         className="absolute left-4 sm:left-8 top-0 w-0.5 bg-gradient-to-b from-blue-500 to-purple-500"
       />
       
@@ -35,8 +51,8 @@ const TimelineExperience: React.FC<TimelineExperienceProps> = ({ experiences }) 
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: "-50px" }}
             transition={{ 
-              duration: 0.8, 
-              delay: index * 0.3,
+              duration: cardDuration, 
+              delay: index * cardDelayStep,
               ease: "easeOut" 
             }}
             className="relative flex items-start"
@@ -47,8 +63,8 @@ const TimelineExperience: React.FC<TimelineExperienceProps> = ({ experiences }) 
               whileInView={{ scale: 1 }}
               viewport={{ once: true }}
               transition={{ 
-                duration: 0.5, 
-                delay: index * 0.3 + 0.5,
+                duration: dotDuration, 
+                delay: index * cardDelayStep + dotDelayOffset,
                 type: "spring",
                 stiffness: 200
               }}
@@ -67,7 +83,7 @@ const TimelineExperience: React.FC<TimelineExperienceProps> = ({ experiences }) 
                 <motion.h3 
                   initial={{ opacity: 0 }}
                   whileInView={{ opacity: 1 }}
-                  transition={{ delay: index * 0.3 + 0.7, duration: 0.5 }}
+                  transition={{ delay: index * cardDelayStep + titleDelayOffset, duration: titleDuration }}
                   className="text-lg sm:text-xl md:text-2xl font-semibold text-blue-400"
                 >
                   {exp.title}
@@ -77,7 +93,7 @@ const TimelineExperience: React.FC<TimelineExperienceProps> = ({ experiences }) 
               <motion.div 
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
-                transition={{ delay: index * 0.3 + 0.8, duration: 0.5 }}
+                transition={{ delay: index * cardDelayStep + metaDelayOffset, duration: metaDuration }}
                 className="flex flex-col sm:flex-row sm:flex-wrap gap-2 sm:gap-4 mb-4 sm:mb-6 text-gray-400 text-sm sm:text-base"
               >
                 <div className="flex items-center gap-2">
@@ -97,7 +113,7 @@ const TimelineExperience: React.FC<TimelineExperienceProps> = ({ experiences }) 
               <motion.ul 
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
-                transition={{ delay: index * 0.3 + 1, duration: 0.5 }}
+                transition={{ delay: index * cardDelayStep + descDelayOffset, duration: descDuration }}
                 className="space-y-2 sm:space-y-3"
               >
                 {exp.description.map((item, itemIndex) => (
@@ -106,8 +122,8 @@ const TimelineExperience: React.FC<TimelineExperienceProps> = ({ experiences }) 
                     initial={{ opacity: 0, x: -20 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     transition={{ 
-                      delay: index * 0.3 + 1.1 + itemIndex * 0.1, 
-                      duration: 0.4 
+                      delay: index * cardDelayStep + liDelayOffset + itemIndex * liStep, 
+                      duration: liDuration 
                     }}
                     className="flex items-start gap-2 sm:gap-3 text-gray-300 text-sm sm:text-base leading-relaxed"
                   >

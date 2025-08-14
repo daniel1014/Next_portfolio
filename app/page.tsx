@@ -230,7 +230,7 @@ const PortfolioPage = () => {
       ],
       technologies: ["React Native", "Expo", "Firebase", "GraphQL", "Next.js", "TypeScript", "TailwindCSS"],
       links: {
-        demo: "https://trustvibe.vercel.app",
+        demo: "https://faithfulstack.com/trustvibe",
       }
     }
   ];
