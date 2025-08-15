@@ -172,19 +172,27 @@ const ChatPage = () => {
       const decoder = new TextDecoder();
       let fullResponse = '';
       let receivedMetadata = false;
+      let buffer = ''; // Buffer to accumulate partial chunks
 
       try {
         while (true) {
           const { done, value } = await reader.read();
           if (done) break;
 
-          const chunk = decoder.decode(value);
-          const lines = chunk.split('\n');
+          const chunk = decoder.decode(value, { stream: true });
+          buffer += chunk;
+          const lines = buffer.split('\n');
+          
+          // Keep the last line in buffer if it doesn't end with \n (incomplete)
+          buffer = lines.pop() || '';
 
           for (const line of lines) {
             if (line.startsWith('data: ')) {
               try {
-                const data = JSON.parse(line.slice(6));
+                const jsonStr = line.slice(6).trim();
+                if (!jsonStr) continue; // Skip empty data lines
+                
+                const data = JSON.parse(jsonStr);
                 
                 if (data.type === 'metadata' && !receivedMetadata) {
                   // Handle initial metadata
@@ -242,7 +250,8 @@ const ChatPage = () => {
                   });
                 }
               } catch (parseError) {
-                console.error('Error parsing stream data:', parseError);
+                console.error('Error parsing stream data:', parseError, 'Line:', line);
+                // Continue processing other lines instead of breaking
               }
             }
           }
