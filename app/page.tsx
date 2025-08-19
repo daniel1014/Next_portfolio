@@ -331,7 +331,7 @@ const PortfolioPage = () => {
       <header className="text-white h-screen flex items-center relative z-10">
         <div className="container mx-auto px-6 text-center">
           <h1 className="text-4xl sm:text-6xl font-bold mb-6 animate-fade-in bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">Daniel (Chuen Lik) Wong</h1>
-          <p className="text-2xl mb-10 animate-fade-in-delay text-gray-300">Full-stack Developer | AI Engineer | Innovation Enthusiast</p>
+          <p className="text-2xl mb-10 animate-fade-in-delay text-gray-300">Full-stack Developer | AI Engineer | Building Scalable & Intelligent Products</p>
           {/* <button onClick={() => scrollTo('about')} className="bg-blue-500 text-white px-8 py-3 rounded-full hover:bg-blue-600 transition duration-300 shadow-lg animate-bounce">
             Explore My Work <ChevronDown className="inline ml-2" />
           </button> */}

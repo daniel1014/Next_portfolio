@@ -6,8 +6,8 @@ import ClientAnalytics from '../components/ClientAnalytics'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Daniel Wong - Portfolio',
-  description: 'AI Engineer | Data Scientist | Innovation Enthusiast',
+  title: "Discover More About Daniel Wong's Work",
+  description: 'Full-stack & AI Engineer | Turning Ideas into Scalable Products',
   manifest: '/manifest.json',
   icons: {
     icon: [
@@ -28,6 +28,20 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'Organization',
+              url: 'https://faithfulstack.com',
+              name: 'Daniel Wong',
+              logo: 'https://faithfulstack.com/android-chrome-512x512.png',
+            }),
+          }}
+        />
+      </head>
       <body className={inter.className}>
         {children}
         <ClientAnalytics />
