@@ -75,6 +75,18 @@ const PortfolioPage = () => {
   // Added PlanningHub startup experience to reflect recent, relevant software engineering work in an early-stage AI SaaS environment.
   const experiences = [
     {
+      title: "Full-Stack Developer",
+      company: "Talk Machine (Early-stage Tech Startup)",
+      location: "Remote (London)",
+      period: "September 2024 - Present",
+      description: [
+        "Built a cross-platform AI-powered voice note social app for web, iOS, and Android using Next.js, React, TypeScript, and Capacitor, delivering real-time voice messaging with AI-generated transcripts and summaries powered by Vertex AI (TTS) and Elevenlabs.",
+        "Designed and implemented type-safe backend APIs with Node.js, TypeScript, and Hono, managing TypeSpec-driven OpenAPI specifications to ensure consistency across multiple frontend repositories.",
+        "Architected an internal tool for prompt testing, user management, and system monitoring, implementing Cognito authentication with group-based permissions and GitHub Apps integration for automated YAML diff and PR creation.",
+        "Managed PostgreSQL with Prisma ORM and contributed to AWS infrastructure (S3 for asset storage, ECS for deployment) with Docker and CI/CD pipelines."
+      ]
+    },
+    {
       title: "Software Developer",
       company: "PlanningHub (Early-stage Tech Startup)",
       location: "London, United Kingdom",
@@ -439,6 +451,7 @@ Today, I focus on building intelligent, data‑driven applications — from RAG 
                     { name: "Prompt engineering & evaluation", level: 90 },
                     { name: "LangChain / LlamaIndex", level: 90 },
                     { name: "RAG (chunking, hybrid search)", level: 90 },
+                    { name: "Vertex AI (TTS) & Elevenlabs", level: 85 },
                     { name: "Agents (CrewAI)", level: 80 },
                   ]}
                 />
@@ -446,16 +459,20 @@ Today, I focus on building intelligent, data‑driven applications — from RAG 
                   category="Backend"
                   skills={[
                     { name: "Python (FastAPI)", level: 90 },
+                    { name: "Node.js (Express, Hono)", level: 85 },
                     { name: "REST APIs & webhooks", level: 85 },
-                    { name: "Node.js / Next.js API routes", level: 80 },
-                    { name: "Auth & sessions", level: 75 },
+                    { name: "TypeSpec (API specifications)", level: 90 },
+                    { name: "Prisma ORM", level: 80 },
+                    { name: "Auth & sessions", level: 85 },
                   ]}
                 />
                 <SkillCategory
                   category="Frontend"
                   skills={[
-                    { name: "Next.js / React", level: 80 },
-                    { name: "TypeScript", level: 75 },
+                    { name: "Next.js / React", level: 85 },
+                    { name: "TypeScript", level: 80 },
+                    { name: "React Query & state management", level: 80 },
+                    { name: "Capacitor (iOS/Android)", level: 80 },
                     { name: "Tailwind CSS & Framer Motion", level: 85 },
                     { name: "Shadcn UI", level: 80 },
                   ]}
@@ -464,8 +481,12 @@ Today, I focus on building intelligent, data‑driven applications — from RAG 
                   category="Data & Cloud"
                   skills={[
                     { name: "Vector DBs (Pinecone, Qdrant)", level: 90 },
+                    { name: "AWS (S3, ECS, infrastructure)", level: 80 },
                     { name: "Azure (App Service, AI Search)", level: 80 },
-                    { name: "PostgreSQL / SQL", level: 80 },
+                    { name: "PostgreSQL / SQL", level: 85 },
+                    { name: "Pulumi (Infrastructure as Code)", level: 70 },
+                    { name: "Docker & CI/CD", level: 85 },
+                    { name: "GCP, Cloudflare, DigitalOcean", level: 80 },
                     { name: "Streamlit / Dash", level: 90 },
                   ]}
                 />
@@ -473,6 +494,7 @@ Today, I focus on building intelligent, data‑driven applications — from RAG 
               <div>
                 <h3 className="text-2xl font-semibold mb-6 text-blue-400">Certifications</h3>
                 <ul className="list-disc list-inside text-gray-300 space-y-3">
+                  <li>IBM Full Stack Software Developer</li>
                   <li>Financial Risk Manager (FRM) Exam - Part 1 & 2</li>
                   <li>Multi AI Agent Systems with CrewAI</li>
                   <li>AWS Machine Learning Foundation 2022</li>

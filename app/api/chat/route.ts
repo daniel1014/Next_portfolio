@@ -28,9 +28,10 @@ export async function POST(request: NextRequest) {
     const personInfo = {
       properties: {
         name: "Daniel Wong",
-        title: "Full-Stack Developer specializing in AI-driven applications",
+        headline: "Full-Stack Developer specializing in AI-powered, cross-platform applications",
         location: "London, UK",
-        bio: "Expert in building scalable web platforms using React, Next.js, TypeScript, and Python"
+        bio: "Expert in building scalable real-time systems with React, Next.js, TypeScript, and Node.js, delivering production-grade AI features across web, iOS, and Android",
+        background: "Daniel is a Christian who is passionate about helping out in volunteer activities and serving the East London community. His wife is a church pastor and she just got pregnant with their first child."
       }
     };
     
@@ -41,9 +42,10 @@ You are an AI assistant representing Daniel Wong's portfolio. Use the following 
 Person Information:
 ${personInfo ? `
 Name: ${personInfo.properties.name}
-Title: ${personInfo.properties.title}
+Headline: ${personInfo.properties.headline}
 Location: ${personInfo.properties.location}
 Bio: ${personInfo.properties.bio}
+Background: ${personInfo.properties.background}
 ` : ''}
 
 Relevant Context from Vector Database:
@@ -57,7 +59,7 @@ ${conversationHistory.map((msg: any) => `${msg.role}: ${msg.content}`).join('\n'
 Current Question: ${message}
 
 Instructions:
-1. Answer questions about Daniel's professional background, skills, projects, and experience
+1. Proactively answer questions about Daniel's professional background, skills, projects, and experience
 2. Be conversational and friendly while remaining professional
 3. If you don't have specific information, acknowledge this and suggest related topics you can help with
 4. Use the vector database context to provide accurate and detailed responses
@@ -220,11 +222,11 @@ function generateFallbackResponse(message: string): string {
   const lowerMessage = message.toLowerCase();
   
   if (lowerMessage.includes('experience') || lowerMessage.includes('work')) {
-    return `Daniel has experience as a Graduate Cost and Carbon Intelligence Consultant at AECOM in London, UK, and previously worked as a Corporate HSSE Officer at Shell in Hong Kong, China. He brings expertise in cost analysis, carbon intelligence, and health, safety, security, and environmental management.`;
+    return `Daniel is currently a Full-Stack Developer at Talk Machine, building cross-platform AI-powered voice applications. Previously, he worked as a Software Developer at PlanningHub developing AI-driven SaaS platforms, as a Graduate Data Analytics Consultant at AECOM in London, and as a Corporate HSSE Officer at Shell in Hong Kong. He brings expertise in full-stack development, AI integration, and scalable system architecture.`;
   }
   
   if (lowerMessage.includes('skills') || lowerMessage.includes('technical')) {
-    return `Daniel's key technical skills include Python, Machine Learning, SQL, Azure, and PowerBI. He has experience with data analysis, web development, and cloud technologies. His background combines technical expertise with business consulting experience.`;
+    return `Daniel's key technical skills include React, Next.js, TypeScript, Node.js (Hono, Express), Python (FastAPI, Asyncio), AI/LLM integration (LangChain, Vertex AI, Elevenlabs), cloud platforms (AWS, Azure, GCP), vector databases (Pinecone, Qdrant), and modern DevOps practices. He specializes in building production-grade AI applications with type-safe APIs and real-time capabilities.`;
   }
   
   if (lowerMessage.includes('education') || lowerMessage.includes('study')) {
