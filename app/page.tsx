@@ -72,6 +72,14 @@ const PortfolioPage = () => {
     "/photos/trustvibe_2.png",
   ];
 
+  const projectImages_babyfeed = [
+    "/photos/babyfeed_1.png",
+    "/photos/babyfeed_2.png",
+    "/photos/babyfeed_3.png",
+    "/photos/babyfeed_4.png",
+    "/photos/babyfeed_5.png",
+  ];
+
   // Added PlanningHub startup experience to reflect recent, relevant software engineering work in an early-stage AI SaaS environment.
   const experiences = [
     {
@@ -244,6 +252,31 @@ const PortfolioPage = () => {
       links: {
         demo: "https://faithfulstack.com/trustvibe",
       }
+    },
+    {
+      title: "Baby Feeding Timer",
+      period: "October 2024 - present (ongoing side project)",
+      images: projectImages_babyfeed,
+      frontDescription: "Full-featured baby care tracking app for new parents to monitor feeding, sleeping, and diaper sessions with timer functionality and encouraging Bible scriptures.",
+      backDetails: [
+        {
+          title: "Authentication & user management",
+          description: "Integrated Better Auth with PostgreSQL (Neon) for secure user sessions, supporting email/password and Google OAuth login with custom user fields."
+        },
+        {
+          title: "Timer system architecture",
+          description: "Built unified timer hook supporting both stopwatch and countdown modes with localStorage persistence, automatic cleanup, and race condition prevention for reliable session tracking."
+        },
+        {
+          title: "Modern UI/UX design",
+          description: "Created user-friendly interface with animated SVG milk bottle draining visualization, multi-tab navigation for different session types, and Bible scripture popups for encouragement."
+        }
+      ],
+      technologies: ["Next.js 15", "React 19", "TypeScript", "PostgreSQL", "Better Auth", "Tailwind CSS 4", "Google OAuth", "Neon Database"],
+      links: {
+        github: "https://github.com/daniel1014/baby_feeding_timer",
+        demo: "https://faithfulstack.com/babyfeed"
+      }
     }
   ];
 
@@ -407,10 +440,10 @@ Today, I focus on building intelligent, data‑driven applications — from RAG 
               label="Years Experience" 
               icon={<Calendar className="w-6 h-6 text-blue-400" />}
             />
-            <AnimatedCounter 
-              end={6} 
-              suffix="+" 
-              label="Major Projects" 
+            <AnimatedCounter
+              end={7}
+              suffix="+"
+              label="Major Projects"
               icon={<Code className="w-6 h-6 text-blue-400" />}
             />
             <AnimatedCounter 
