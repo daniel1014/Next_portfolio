@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { ExternalLink, Github, Info, Download } from 'lucide-react';
 import Image from 'next/image';
+import ImageLightbox from './ImageLightbox';
 
 interface ProjectData {
   title: string;
@@ -26,7 +27,7 @@ interface FlipCardProps {
 }
 
 // Local, mobile-first gallery for this card
-const CardGallery: React.FC<{ images: string[] }> = ({ images }) => {
+const CardGallery: React.FC<{ images: string[]; onImageClick: (index: number) => void }> = ({ images, onImageClick }) => {
   const [index, setIndex] = useState(0);
   const [isAuto, setIsAuto] = useState(true);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
@@ -55,10 +56,26 @@ const CardGallery: React.FC<{ images: string[] }> = ({ images }) => {
       {images.map((src, i) => (
         <div
           key={i}
-          className="absolute inset-0"
+          className="absolute inset-0 cursor-pointer group"
           style={{ opacity: i === index ? 1 : 0, transition: 'opacity .4s ease' }}
+          onClick={(e) => {
+            e.stopPropagation();
+            onImageClick(i);
+          }}
         >
-          <Image src={src} alt={`Project image ${i + 1}`} fill sizes="(max-width: 768px) 100vw, 768px" className="object-contain rounded-2xl" />
+          <Image
+            src={src}
+            alt={`Project image ${i + 1}`}
+            fill
+            sizes="(max-width: 768px) 100vw, 768px"
+            className="object-contain rounded-2xl transition-transform duration-300 group-hover:scale-105"
+          />
+          {/* Hover overlay to indicate clickability */}
+          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 rounded-2xl flex items-center justify-center">
+            <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full border border-white/20">
+              <span className="text-white text-sm font-medium">Click to enlarge</span>
+            </div>
+          </div>
         </div>
       ))}
       <button aria-label="Previous" onClick={(e)=>{e.stopPropagation();setIsAuto(false);setIndex((p)=> (p-1+images.length)%images.length);}} className="absolute left-2 top-1/2 -translate-y-1/2 bg-gray-900/60 text-white p-2 rounded-full">‹</button>
@@ -74,8 +91,16 @@ const CardGallery: React.FC<{ images: string[] }> = ({ images }) => {
  */
 const FlipCard: React.FC<FlipCardProps> = ({ project }) => {
   const [isFlipped, setIsFlipped] = useState(false);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [lightboxIndex, setLightboxIndex] = useState(0);
+
+  const handleImageClick = (index: number) => {
+    setLightboxIndex(index);
+    setLightboxOpen(true);
+  };
 
   return (
+    <>
     <div className="relative h-[700px] sm:h-[660px] w-full perspective-1000 z-0" style={{ transformStyle: 'preserve-3d' }}>
       <motion.div
         className="relative w-full h-full duration-700 transform-style-preserve-3d cursor-pointer"
@@ -107,9 +132,9 @@ const FlipCard: React.FC<FlipCardProps> = ({ project }) => {
           </div>
           
           <p className="text-gray-300 mb-3 sm:mb-4">{project.period}</p>
-          
-          <CardGallery images={project.images} />
-          
+
+          <CardGallery images={project.images} onImageClick={handleImageClick} />
+
           <p className="text-gray-200 leading-relaxed mb-4">
             {project.frontDescription}
           </p>
@@ -282,6 +307,15 @@ const FlipCard: React.FC<FlipCardProps> = ({ project }) => {
         </motion.div>
       </motion.div>
     </div>
+
+      {/* Image Lightbox */}
+      <ImageLightbox
+        images={project.images}
+        initialIndex={lightboxIndex}
+        isOpen={lightboxOpen}
+        onClose={() => setLightboxOpen(false)}
+      />
+    </>
   );
 };
 
