@@ -207,12 +207,12 @@ const ImageLightbox: React.FC<ImageLightboxProps> = ({
             exit={{ scale: 0.9, opacity: 0 }}
             transition={{ duration: 0.3 }}
             className="relative w-full h-full flex items-center justify-center p-4 md:p-16"
-            onClick={(e) => e.stopPropagation()}
             onTouchStart={handleTouchStart}
             onTouchEnd={handleTouchEnd}
           >
             <motion.div
               key={currentIndex}
+              onClick={(e) => e.stopPropagation()}
               initial={{ opacity: 0, x: 100 }}
               animate={{ opacity: 1, x: 0, scale }}
               exit={{ opacity: 0, x: -100 }}
