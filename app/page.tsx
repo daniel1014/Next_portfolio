@@ -360,7 +360,7 @@ const PortfolioPage = () => {
             </a>
             {/* LinkedIn icon button */}
             <a
-              href="https://www.linkedin.com/in/daniel-chuen-lik-wong/"
+              href="https://www.linkedin.com/in/chuenlik-daniel-wong"
               target="_blank"
               rel="noopener noreferrer"
               className="p-2 rounded-md bg-gradient-to-r from-cyan-500/20 to-purple-600/20 hover:from-cyan-500/30 hover:to-purple-700/30 text-gray-200 transition-colors"
