@@ -47,7 +47,7 @@ const CardGallery: React.FC<{ images: string[]; onImageClick: (index: number) =>
 
   return (
     <div
-      className="relative w-full h-64 sm:h-80 md:h-[28rem] mb-4"
+      className="relative w-full h-64 sm:h-80 md:h-[28rem] mb-4 image-hover-zone"
       onMouseEnter={() => setIsAuto(false)}
       onMouseLeave={() => setIsAuto(true)}
       onTouchStart={() => setIsAuto(false)}
@@ -110,13 +110,11 @@ const FlipCard: React.FC<FlipCardProps> = ({ project }) => {
         style={{ transformStyle: 'preserve-3d' }}
       >
         {/* Front of card */}
-        <motion.div 
-          className="absolute inset-0 w-full h-full rounded-2xl p-5 sm:p-8 bg-white/10 border border-white/15 backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.35)] overflow-hidden flex flex-col"
+        <motion.div
+          className="absolute inset-0 w-full h-full rounded-2xl p-5 sm:p-8 bg-white/10 border border-white/15 backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.35)] overflow-hidden flex flex-col transition-transform duration-300 [&:not(:has(.image-hover-zone:hover))]:hover:scale-[1.02]"
           initial={{ rotateX: 0 }}
           animate={{ rotateX: 0 }}
-          whileHover={{ scale: 1.02 }}
-          transition={{ duration: 0.3 }}
-          style={{ 
+          style={{
             backfaceVisibility: 'hidden'
           }}
         >
@@ -211,13 +209,11 @@ const FlipCard: React.FC<FlipCardProps> = ({ project }) => {
         </motion.div>
 
         {/* Back of card */}
-        <motion.div 
-          className="absolute inset-0 w-full h-full rounded-2xl p-5 sm:p-8 bg-gradient-to-br from-slate-900/60 to-slate-800/60 border border-white/10 backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.35)] flex flex-col min-h-[340px] sm:min-h-[400px] overflow-auto"
+        <motion.div
+          className="absolute inset-0 w-full h-full rounded-2xl p-5 sm:p-8 bg-gradient-to-br from-slate-900/60 to-slate-800/60 border border-white/10 backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.35)] flex flex-col min-h-[340px] sm:min-h-[400px] overflow-auto transition-transform duration-300 hover:scale-[1.02]"
           initial={{ rotateX: 180 }}
           animate={{ rotateX: 180 }}
-          whileHover={{ scale: 1.02 }}
-          transition={{ duration: 0.3 }}
-          style={{ 
+          style={{
             backfaceVisibility: 'hidden'
           }}
         >
