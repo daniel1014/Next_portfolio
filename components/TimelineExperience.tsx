@@ -16,84 +16,128 @@ interface TimelineExperienceProps {
 }
 
 const TimelineExperience: React.FC<TimelineExperienceProps> = ({ experiences }) => {
-  // Animation timing constants for easy adjustment and DRYness
-  const timelineLineDuration = 1.2; // was 2
-  const cardDuration = 0.6; // was 0.8
-  const cardDelayStep = 0.22; // was 0.3
-  const dotDuration = 0.35; // was 0.5
-  const dotDelayOffset = 0.35; // was 0.5
-  const titleDelayOffset = 0.5; // was 0.7
-  const titleDuration = 0.35; // was 0.5
-  const metaDelayOffset = 0.58; // was 0.8
-  const metaDuration = 0.35; // was 0.5
-  const descDelayOffset = 0.7; // was 1
-  const descDuration = 0.35; // was 0.5
-  const liDelayOffset = 0.8; // was 1.1
-  const liDuration = 0.28; // was 0.4
-  const liStep = 0.07; // was 0.1
+  // Optimized animation timing with proper stagger
+  const easeOutExpo = [0.16, 1, 0.3, 1];
+
+  const timelineLineDuration = 0.8;
+  const cardDuration = 0.6;
+  const cardStagger = 0.5;
+  const contentStagger = 0.08;
+  const contentDuration = 0.5;
+  const liStagger = 0.06;
 
   return (
-    <div className="relative px-4 sm:px-0">
+    <motion.div
+      className="relative px-4 sm:px-0"
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: "-100px" }}
+      variants={{
+        hidden: {},
+        visible: {
+          transition: {
+            delayChildren: 0.2,
+            staggerChildren: 0.1
+          }
+        }
+      }}
+    >
       {/* Timeline line */}
       <motion.div
-        initial={{ height: 0 }}
-        whileInView={{ height: "100%" }}
-        viewport={{ once: true }}
-        transition={{ duration: timelineLineDuration, ease: "easeOut" }}
+        variants={{
+          hidden: { height: 0 },
+          visible: { height: "100%" }
+        }}
+        transition={{ duration: timelineLineDuration, ease: easeOutExpo }}
         className="absolute left-4 sm:left-8 top-0 w-0.5 bg-gradient-to-b from-blue-500 to-purple-500"
       />
-      
-      <div className="space-y-8 sm:space-y-12">
+
+      <motion.div
+        className="space-y-8 sm:space-y-12"
+        variants={{
+          hidden: {},
+          visible: {
+            transition: {
+              delayChildren: 0.3,
+              staggerChildren: cardStagger
+            }
+          }
+        }}
+      >
         {experiences.map((exp, index) => (
           <motion.div
             key={index}
-            initial={{ opacity: 0, x: -100 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-50px" }}
-            transition={{ 
-              duration: cardDuration, 
-              delay: index * cardDelayStep,
-              ease: "easeOut" 
+            variants={{
+              hidden: { opacity: 0, x: -100 },
+              visible: {
+                opacity: 1,
+                x: 0,
+                transition: {
+                  duration: cardDuration,
+                  ease: easeOutExpo,
+                  staggerChildren: contentStagger,
+                  delayChildren: 0.15
+                }
+              }
             }}
             className="relative flex items-start"
           >
             {/* Timeline dot */}
             <motion.div
-              initial={{ scale: 0 }}
-              whileInView={{ scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ 
-                duration: dotDuration, 
-                delay: index * cardDelayStep + dotDelayOffset,
-                type: "spring",
-                stiffness: 200
+              variants={{
+                hidden: { scale: 0 },
+                visible: {
+                  scale: [0, 1.3, 1],
+                  transition: {
+                    duration: 0.5,
+                    ease: easeOutExpo,
+                    times: [0, 0.6, 1]
+                  }
+                }
               }}
               className="absolute left-2 sm:left-6 w-3 h-3 sm:w-4 sm:h-4 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full border-2 sm:border-4 border-gray-900 z-10"
             />
-            
+
             {/* Experience card */}
             <motion.div
               whileHover={{ scale: 1.02, y: -5 }}
+              transition={{ duration: 0.2 }}
               className="ml-8 sm:ml-20 bg-card-gradient backdrop-blur-lg border border-white/10 rounded-xl sm:rounded-2xl shadow-2xl p-4 sm:p-8 w-full hover:shadow-blue-500/20 transition-all duration-500"
             >
-              <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
+              <motion.div
+                className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4"
+                variants={{
+                  hidden: { opacity: 0, y: -10 },
+                  visible: {
+                    opacity: 1,
+                    y: 0,
+                    transition: {
+                      duration: contentDuration,
+                      ease: easeOutExpo
+                    }
+                  }
+                }}
+              >
                 <div className="p-1.5 sm:p-2 bg-blue-500/20 rounded-lg">
                   <Briefcase className="w-4 h-4 sm:w-5 sm:h-5 text-blue-400" />
                 </div>
-                <motion.h3 
-                  initial={{ opacity: 0 }}
-                  whileInView={{ opacity: 1 }}
-                  transition={{ delay: index * cardDelayStep + titleDelayOffset, duration: titleDuration }}
-                  className="text-lg sm:text-xl md:text-2xl font-semibold text-blue-400"
-                >
+                <h3 className="text-lg sm:text-xl md:text-2xl font-semibold text-blue-400">
                   {exp.title}
-                </motion.h3>
-              </div>
-              
-              <motion.div 
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                transition={{ delay: index * cardDelayStep + metaDelayOffset, duration: metaDuration }}
+                </h3>
+              </motion.div>
+
+              <motion.div
+                variants={{
+                  hidden: { opacity: 0, y: -10 },
+                  visible: {
+                    opacity: 1,
+                    y: 0,
+                    transition: {
+                      duration: contentDuration,
+                      ease: easeOutExpo
+                    }
+                  }
+                }}
                 className="flex flex-col sm:flex-row sm:flex-wrap gap-2 sm:gap-4 mb-4 sm:mb-6 text-gray-400 text-sm sm:text-base"
               >
                 <div className="flex items-center gap-2">
@@ -109,21 +153,31 @@ const TimelineExperience: React.FC<TimelineExperienceProps> = ({ experiences }) 
                   <span>{exp.period}</span>
                 </div>
               </motion.div>
-              
-              <motion.ul 
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                transition={{ delay: index * cardDelayStep + descDelayOffset, duration: descDuration }}
+
+              <motion.ul
                 className="space-y-2 sm:space-y-3"
+                variants={{
+                  hidden: {},
+                  visible: {
+                    transition: {
+                      staggerChildren: liStagger
+                    }
+                  }
+                }}
               >
                 {exp.description.map((item, itemIndex) => (
-                  <motion.li 
+                  <motion.li
                     key={itemIndex}
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ 
-                      delay: index * cardDelayStep + liDelayOffset + itemIndex * liStep, 
-                      duration: liDuration 
+                    variants={{
+                      hidden: { opacity: 0, x: -20 },
+                      visible: {
+                        opacity: 1,
+                        x: 0,
+                        transition: {
+                          duration: contentDuration,
+                          ease: easeOutExpo
+                        }
+                      }
                     }}
                     className="flex items-start gap-2 sm:gap-3 text-gray-300 text-sm sm:text-base leading-relaxed"
                   >
@@ -135,8 +189,8 @@ const TimelineExperience: React.FC<TimelineExperienceProps> = ({ experiences }) 
             </motion.div>
           </motion.div>
         ))}
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 };
 
