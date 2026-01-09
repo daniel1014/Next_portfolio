@@ -14,16 +14,20 @@ const nextConfig: NextConfig = {
     },
     // Proxy /babyfeed to baby-feeding-timer app
     async rewrites() {
-        return [
-            {
-                source: '/babyfeed/:path*',
-                destination: 'https://baby-feeding-timer.vercel.app/babyfeed/:path*',
-            },
-            {
-                source: '/babyfeed',
-                destination: 'https://baby-feeding-timer.vercel.app/babyfeed',
-            },
-        ];
+        return {
+            beforeFiles: [
+                // 使用 beforeFiles 確保在 Next.js 頁面/靜態文件檢查之前就執行代理
+                // 這樣可以避免本地的 404 或其他路由干擾
+                {
+                    source: '/babyfeed',
+                    destination: 'https://baby-feeding-timer.vercel.app/babyfeed',
+                },
+                {
+                    source: '/babyfeed/:path*',
+                    destination: 'https://baby-feeding-timer.vercel.app/babyfeed/:path*',
+                },
+            ],
+        };
     },
 };
 
