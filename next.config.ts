@@ -12,7 +12,19 @@ const nextConfig: NextConfig = {
         dangerouslyAllowSVG: true,
         contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
     },
-    // Note: /babyfeed rewrites are now handled by vercel.json for external URL support
+    // Proxy /babyfeed to baby-feeding-timer app
+    async rewrites() {
+        return [
+            {
+                source: '/babyfeed/:path*',
+                destination: 'https://baby-feeding-timer.vercel.app/babyfeed/:path*',
+            },
+            {
+                source: '/babyfeed',
+                destination: 'https://baby-feeding-timer.vercel.app/babyfeed',
+            },
+        ];
+    },
 };
 
 export default withSentryConfig(nextConfig, {
