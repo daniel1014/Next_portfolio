@@ -26,6 +26,14 @@ const nextConfig: NextConfig = {
                     source: '/babyfeed/:path*',
                     destination: 'https://baby-feeding-timer.vercel.app/babyfeed/:path*',
                 },
+                {
+                    source: '/trustvibe',
+                    destination: 'https://trustvibe-landing-page.vercel.app/trustvibe',
+                },
+                {
+                    source: '/trustvibe/:path*',
+                    destination: 'https://trustvibe-landing-page.vercel.app/trustvibe/:path*',
+                },
             ],
         };
     },
