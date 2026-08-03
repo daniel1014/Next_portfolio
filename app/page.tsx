@@ -80,13 +80,24 @@ const PortfolioPage = () => {
     "/photos/babyfeed_5.png",
   ];
 
-  // Added PlanningHub startup experience to reflect recent, relevant software engineering work in an early-stage AI SaaS environment.
   const experiences = [
+    {
+      title: "Founder & Full-Stack Engineer",
+      company: "Event Translate",
+      location: "London, United Kingdom",
+      period: "January 2026 - Present",
+      description: [
+        "Founded and built a real-time AI translation platform for live events, enabling attendees to scan a QR code and receive multilingual captions and natural audio on their own devices.",
+        "Architected the product end-to-end with a mobile-first Next.js frontend, a Python and LiveKit real-time backend, and a cascading STT → LLM → TTS pipeline deployed across self-hosted cloud infrastructure and enterprise-grade NVIDIA GPU hardware.",
+        "Designed differentiated multi-microphone, automatic language-switching, custom terminology, speaker-labelling, and low-resource-language workflows for complex on-stage environments.",
+        "Took the platform from concept to production use across six real events and two paying customers, including an event with 1,400 attendees, while owning product strategy, infrastructure, customer discovery, pricing, and data-protection readiness."
+      ]
+    },
     {
       title: "Full-Stack Developer",
       company: "Talk Machine (Early-stage Tech Startup)",
       location: "Remote (London)",
-      period: "September 2024 - Present",
+      period: "September 2025 - December 2025",
       description: [
         "Built a cross-platform AI-powered voice note social app for web, iOS, and Android using Next.js, React, TypeScript, and Capacitor, delivering real-time voice messaging with AI-generated transcripts and summaries powered by Vertex AI (TTS) and Elevenlabs.",
         "Designed and implemented type-safe backend APIs with Node.js, TypeScript, and Hono, managing TypeSpec-driven OpenAPI specifications to ensure consistency across multiple frontend repositories.",
@@ -350,7 +361,7 @@ const PortfolioPage = () => {
             </Link>
             {/* GitHub icon button */}
             <a
-              href="https://github.com/daniel1014/Next_portfolio"
+              href="https://github.com/daniel1014"
               target="_blank"
               rel="noopener noreferrer"
               className="p-2 rounded-md bg-gradient-to-r from-cyan-500/20 to-purple-600/20 hover:from-cyan-500/30 hover:to-purple-700/30 text-gray-200 transition-colors"
