@@ -421,20 +421,20 @@ const PortfolioPage = () => {
                   className="text-lg sm:text-xl font-bold mb-8 tracking-wide"
                 />
               <TextGradientScroll
-                text={`I began my career in a multinational energy company, where I witnessed firsthand how technology transforms industries from the inside out. This experience inspired me to pivot into tech—teaching myself to code and later pursuing formal training in computing and AI.
+                text={`I began my career at a multinational infrastructure consultancy, where I saw firsthand how technology could transform complex, traditional industries from within. That experience inspired me to pivot into software engineering—first teaching myself to code, then pursuing formal training in computing and AI.
 
-In 2023, after the release of ChatGPT, I built an AI-powered news scraping app. It quickly evolved into a full-stack system with LLMs (RAG), semantic search, PDF parsing, and sentiment analysis—all deployed on the cloud.
+In 2023, shortly after the release of ChatGPT, I built an AI-powered news intelligence platform. What began as a scraping tool evolved into a full-stack system combining RAG, semantic search, PDF processing, sentiment analysis, and cloud deployment. Since then, I have continued building production AI products across geospatial automation, agentic workflows, and real-time voice systems.
 
-That project sharpened my skills and ignited a passion for building scalable, data-driven applications that don’t just work, but think and adapt.
+Today, I am the founder and engineer behind Event Translate, a real-time AI translation platform for live events. I built the product end to end—from the web application and real-time infrastructure to the speech recognition, translation, and voice-generation pipeline. It has already supported multilingual events with up to 1,400 attendees, including complex multi-microphone environments.
 
-Today, I focus on building intelligent, data‑driven applications — from RAG pipelines to geospatial AI — that deliver fast, reliable outcomes.`}
+My focus is on turning emerging AI capabilities into reliable, practical products that solve real operational problems.`}
                 type="word"
                 textOpacity="soft"
                 offset={["start 95%", "end 75%"]}
                 className="text-base sm:text-lg text-gray-200 leading-relaxed font-light"
               />
               <TextGradientScroll
-                text="Today, I focus on building intelligent, data‑driven applications — from RAG pipelines to geospatial AI — that deliver fast, reliable outcomes."
+                text="Today, I build production-grade AI products—from real-time voice systems and RAG pipelines to geospatial automation—that deliver reliable outcomes in the real world."
                 type="word"
                 textOpacity="medium"
                 offset={["start 80%", "end 70%"]}
