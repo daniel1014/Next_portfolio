@@ -421,17 +421,32 @@ const PortfolioPage = () => {
                   className="text-lg sm:text-xl font-bold mb-8 tracking-wide"
                 />
               <TextGradientScroll
-                text={`I began my career at a multinational infrastructure consultancy, where I saw firsthand how technology could transform complex, traditional industries from within. That experience inspired me to pivot into software engineering—first teaching myself to code, then pursuing formal training in computing and AI.
-
-In 2023, shortly after the release of ChatGPT, I built an AI-powered news intelligence platform. What began as a scraping tool evolved into a full-stack system combining RAG, semantic search, PDF processing, sentiment analysis, and cloud deployment. Since then, I have continued building production AI products across geospatial automation, agentic workflows, and real-time voice systems.
-
-Today, I am the founder and engineer behind Event Translate, a real-time AI translation platform for live events. I built the product end to end—from the web application and real-time infrastructure to the speech recognition, translation, and voice-generation pipeline. It has already supported multilingual events with up to 1,400 attendees, including complex multi-microphone environments.
-
-My focus is on turning emerging AI capabilities into reliable, practical products that solve real operational problems.`}
+                text="I began my career at a multinational infrastructure consultancy, where I saw firsthand how technology could transform complex, traditional industries from within. That experience inspired me to pivot into software engineering—first teaching myself to code, then pursuing formal training in computing and AI."
                 type="word"
                 textOpacity="soft"
-                offset={["start 95%", "end 75%"]}
-                className="text-base sm:text-lg text-gray-200 leading-relaxed font-light"
+                offset={["start 95%", "end 85%"]}
+                className="text-base sm:text-lg text-gray-200 leading-relaxed font-light mb-6"
+              />
+              <TextGradientScroll
+                text="In 2023, shortly after the release of ChatGPT, I built an AI-powered news intelligence platform. What began as a scraping tool evolved into a full-stack system combining RAG, semantic search, PDF processing, sentiment analysis, and cloud deployment. Since then, I have continued building production AI products across geospatial automation, agentic workflows, and real-time voice systems."
+                type="word"
+                textOpacity="soft"
+                offset={["start 95%", "end 85%"]}
+                className="text-base sm:text-lg text-gray-200 leading-relaxed font-light mb-6"
+              />
+              <TextGradientScroll
+                text="Today, I am the founder and engineer behind Event Translate, a real-time AI translation platform for live events. I built the product end to end—from the web application and real-time infrastructure to the speech recognition, translation, and voice-generation pipeline. It has already supported multilingual events with up to 1,400 attendees, including complex multi-microphone environments."
+                type="word"
+                textOpacity="soft"
+                offset={["start 95%", "end 85%"]}
+                className="text-base sm:text-lg text-gray-200 leading-relaxed font-light mb-6"
+              />
+              <TextGradientScroll
+                text="My focus is on turning emerging AI capabilities into reliable, practical products that solve real operational problems."
+                type="word"
+                textOpacity="soft"
+                offset={["start 95%", "end 85%"]}
+                className="text-base sm:text-lg text-gray-200 leading-relaxed font-light mb-6"
               />
               <TextGradientScroll
                 text="Today, I build production-grade AI products—from real-time voice systems and RAG pipelines to geospatial automation—that deliver reliable outcomes in the real world."
